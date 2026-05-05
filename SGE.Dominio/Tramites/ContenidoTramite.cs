@@ -11,7 +11,7 @@ public record class ContenidoTramite
     {
         //si esta vacio o null lanzamos una exception de tipo Dominio
         if(string.IsNullOrWhiteSpace(valor))
-            throw new DominioException("La caratula del expediente no pueder estar vacio.");
+            throw new DominioException("El contenido del tramite no pueder estar vacio.");
 
         //si cumple la validacion, guardamos el valor
         Valor = valor;

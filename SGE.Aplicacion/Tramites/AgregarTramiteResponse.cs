@@ -1,8 +1,9 @@
 using System;
+using SGE.Dominio.Expedientes;
 
 namespace SGE.Aplicacion.Tramites;
 
-public class AgregarTramiteResponse
+public record class AgregarTramiteResponse(Guid IdTramite)
 {
 
 }

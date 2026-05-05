@@ -39,4 +39,5 @@ public class Tramite
         FechaCreacion = fechaCreacion;
         FechaUltimaModificacion = fechaUltimaModificacion;
     }
+
 }

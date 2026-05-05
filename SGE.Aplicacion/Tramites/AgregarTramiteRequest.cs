@@ -1,8 +1,10 @@
 using System;
+using SGE.Dominio.Expedientes;
+using SGE.Dominio.Tramites;
 
 namespace SGE.Aplicacion.Tramites;
 
-public class AgregarTramiteRequest(Guid idUsuario)
+public record class AgregarTramiteRequest(Guid ExpedienteId, string Contenido, Guid IdUsuario)
 {
 
 }

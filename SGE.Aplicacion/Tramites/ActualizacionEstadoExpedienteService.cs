@@ -1,12 +1,13 @@
 using System;
 using System.Data.Common;
+using SGE.Aplicacion.Expedientes;
 using SGE.Dominio.Tramites;
 
 namespace SGE.Aplicacion.Tramites;
 
 public class ActualizacionEstadoExpedienteService(ITramiteRepository _tramiteRepository, IExpedienteRepository _expedienteRepository)
 {
-    void ActualizarEstadoExpediente(Guid idUsuario, Guid idExpediente)
+    public void ActualizarEstadoExpediente(Guid idUsuario, Guid idExpediente)
     {
         //traemos el expediente real desde el repositorio
         var expediente = _expedienteRepository.ObtenerPorId(idExpediente);
@@ -35,7 +36,7 @@ public class ActualizacionEstadoExpedienteService(ITramiteRepository _tramiteRep
 
         bool cambio = expediente.ActualizarEstado(ultimaEtiqueta, idUsuario);
         
-        if (cambio) _expedienteRepository.Modificar(expediente);
+        if (cambio) _expedienteRepository.ModificarExpediente(expediente);
     }
 
 }

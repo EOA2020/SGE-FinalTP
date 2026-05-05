@@ -1,5 +1,5 @@
 namespace SGE.Aplicacion.Expedientes;
 
-public record class AgregarExpedienteResponse(
+public record class AgregarResponse(
     Guid IdExpediente
 );

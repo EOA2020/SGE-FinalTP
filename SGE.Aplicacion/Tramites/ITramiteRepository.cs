@@ -6,9 +6,9 @@ namespace SGE.Aplicacion.Tramites;
 
 public interface ITramiteRepository
 {}
-    void Agregar(Tramite tramite);
-    void Modificar(Tramite tramite);
-    void Eliminar(Tramite tramite);
+    void AgregarTramite(Tramite tramite);
+    void ModificarTramite(Tramite tramite);
+    void EliminarTramite(Tramite tramite);
     Tramite? ObtenerPorId(Guid idTramite);
     IEnumerable<Tramite> ObtenerPorExpedienteId(Guid expedienteId); 
     IEnumerable<Tramite> ObtenerTodos();

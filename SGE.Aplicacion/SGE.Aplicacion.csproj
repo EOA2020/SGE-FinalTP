@@ -6,7 +6,12 @@
 
   <ItemGroup>
     <Folder Include="Autorizacion\" />
+<<<<<<< HEAD
     <Folder Include="Expedientes\" />
+=======
+    <Folder Include="Comun\" />
+    <Folder Include="Tramites\" />
+>>>>>>> 9dd36132bea3c4b5c90e4cce5a3230556ebb237c
   </ItemGroup>
 
   <PropertyGroup>
