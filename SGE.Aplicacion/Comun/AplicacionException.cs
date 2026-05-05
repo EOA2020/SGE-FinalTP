@@ -1,5 +1,3 @@
-using System;
-
 namespace SGE.Aplicacion.Comun;
 
 public class AplicacionException: Exception
