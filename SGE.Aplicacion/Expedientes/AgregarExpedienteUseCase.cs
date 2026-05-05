@@ -1,4 +1,5 @@
 using SGE.Aplicacion.Autorizacion;
+using SGE.Aplicacion.Comun;
 using SGE.Dominio.Expedientes;
 namespace SGE.Aplicacion.Expedientes;
 
@@ -22,7 +23,7 @@ public class AgregarExpedienteUseCase
     {   
         //verificamos que exista un id del usuario que crea el expediente
         if(request.IdUsuario == Guid.Empty)
-            throw new Exception("El id no puede estar vacio");
+            throw new AplicacionException("El id del usuario no puede estar vacio");
 
         //verificamos que el usuario este autorizado
         if(!_autorizacionService.PoseeElPermiso(request.IdUsuario, Permiso.TramiteAlta))

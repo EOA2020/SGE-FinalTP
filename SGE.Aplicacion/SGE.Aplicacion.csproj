@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Folder Include="Autorizacion\" />
+    <Folder Include="Comun\" />
     <Folder Include="Tramites\" />
   </ItemGroup>
 
