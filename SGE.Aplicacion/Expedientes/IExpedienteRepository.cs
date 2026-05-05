@@ -12,7 +12,7 @@ public interface IExpedienteRepository
     Expediente? ObtenerPorId(Guid id);
 
     //obtener todos los expedientes
-    IEnumerable<Expediente> ObtenerTodos();
+    List<Expediente> ObtenerTodos();
 
     //modificar un expediente
     void ModificarExpediente(Expediente expediente);
