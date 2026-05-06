@@ -1,6 +1,7 @@
 ﻿using SGE.Aplicacion.Autorizacion;
 using SGE.Aplicacion.Expedientes;
 
+Console.WriteLine("Hola mundo");
 
 /////////////////////////////////////////////////////////////////////
 ////// PRUEBA UNITARIA - CASO DE USO PARA AGREGAR UN EXPEDIENTE ////

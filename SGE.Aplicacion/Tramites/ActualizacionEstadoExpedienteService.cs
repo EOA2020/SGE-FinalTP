@@ -33,7 +33,7 @@ public class ActualizacionEstadoExpedienteService(ITramiteRepository _tramiteRep
 
         bool cambio = expediente.ActualizarEstado(ultimaEtiqueta, idUsuario);
         
-        if (cambio) _expedienteRepository.ModificarExpediente(expediente);
+        if (cambio) _expedienteRepository.ModificarEstado(expediente);
     }
 
 }

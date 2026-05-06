@@ -17,7 +17,7 @@ public interface IExpedienteRepository
     void ModificarCaratula(Guid id, Caratula caratula, Guid idUsuario);
 
     //modificar el estado de un expediente de forma manual 
-    void ModificarEstado(EstadoExpediente estado);
+    void ModificarEstado(Expediente expediente);
 
     //eliminar un expediente
     void EliminarExpediente(Guid id);
