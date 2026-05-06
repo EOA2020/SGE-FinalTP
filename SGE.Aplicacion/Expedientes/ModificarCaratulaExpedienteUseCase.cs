@@ -34,10 +34,19 @@ public class ModificarCaratulaExpedienteUseCase
         //pasamos a value object los datos del request
         var caratula = new Caratula(request.Caratula);
 
-        //le pasamos todo al repositorio
-        _expedienteRepository.ModificarCaratula(request.IdExpediente, caratula, request.IdUsuario);
+        //traemos el expediente
+        var expediente = _expedienteRepository.ObtenerPorId(request.IdExpediente);
 
-        //retornamos un respuesta
-        return new ModificarCaratulaExpedienteResponse(request.IdExpediente);
+        //verificar que exista
+        if(expediente == null)
+            throw new EntidadNoEncontradaException("El expediente no existe.");
+
+        //el dominio se encarga de modificar la caratula
+        expediente.ModificarCaratula(caratula, request.IdUsuario);
+
+        //persistir
+        _expedienteRepository.ModificarExpediente(expediente);
+
+        return new ModificarCaratulaExpedienteResponse(expediente.Id);
     }
 }

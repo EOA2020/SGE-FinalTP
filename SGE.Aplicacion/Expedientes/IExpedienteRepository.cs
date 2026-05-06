@@ -13,11 +13,8 @@ public interface IExpedienteRepository
     //obtener todos los expedientes
     List<Expediente> ObtenerTodos();
 
-    //modificar la caratula de un expediente
-    void ModificarCaratula(Guid id, Caratula caratula, Guid idUsuario);
-
     //modificar el estado de un expediente de forma manual 
-    void ModificarEstado(Expediente expediente);
+    void ModificarExpediente(Expediente expediente);
 
     //eliminar un expediente
     void EliminarExpediente(Guid id);
