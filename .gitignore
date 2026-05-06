@@ -105,7 +105,6 @@ StyleCopReport.xml
 *.svclog
 *.scc
 
-*.Aplicacion.csproj
 *.csproj
 
 # Chutzpah Test files
