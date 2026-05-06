@@ -10,7 +10,7 @@ public class ObtenerTramitePorIdUseCase(ITramiteRepository tramiteRepository)
 
     public ObtenerPorIdResponse Ejecutar(ObtenerPorIdResquest request)
     {
-        //verificamos que el id del tramiteno este vacio
+        //verificamos que el id del tramite no este vacio
         if(request.IdTramite == Guid.Empty)
             throw new AplicacionException("El id del tramite no puede estar vacio.");
 

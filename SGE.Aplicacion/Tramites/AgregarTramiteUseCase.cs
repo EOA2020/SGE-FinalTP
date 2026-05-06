@@ -30,6 +30,7 @@ public class AgregarTramiteUseCase(ITramiteRepository tramiteRepository,  IAutor
         //actualizamos el ultimo expediente
         actualizacionExpediente.ActualizarEstadoExpediente(tramite.UsuarioUltimoCambio,tramite.ExpedienteId);
 
+        //retornamos una respuesta
         return new AgregarTramiteResponse(tramite.Id);   
     }
 
