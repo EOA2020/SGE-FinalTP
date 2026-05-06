@@ -4,7 +4,7 @@ using SGE.Aplicacion.Comun;
 
 namespace SGE.Aplicacion.Tramites;
 
-public class ObtenerPorIdUseCase(ITramiteRepository tramiteRepository, IAutorizacionService autorizacionService)
+public class ObtenerPorIdUseCase(ITramiteRepository tramiteRepository)
 {
     public ObtenerPorIdResponse Ejecutar(ObtenerPorIdResquest request)
     {
