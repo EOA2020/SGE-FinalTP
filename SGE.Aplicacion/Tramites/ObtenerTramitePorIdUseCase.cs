@@ -11,7 +11,7 @@ public class ObtenerPorIdUseCase(ITramiteRepository tramiteRepository)
         if(request.IdTramite == Guid.Empty)
             throw new AplicacionException("El id del tramite no puede estar vacio.");
 
-        var tramite = tramiteRepository.ObtenerTramitePorId(request.IdTramite);
+        var tramite = tramiteRepository.ObtenerPorId(request.IdTramite);
 
         if(tramite == null)
             throw new EntidadNoEncontradaException("El id del tramite no se encntro");

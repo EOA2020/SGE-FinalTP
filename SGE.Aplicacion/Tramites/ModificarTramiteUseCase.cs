@@ -20,7 +20,7 @@ public ModificarTramiteResponse Ejecutar(ModificarTramiteRequest request)
             throw new AutorizacionException("El usuario debe tener permiso");
         
         //obtenemos el tramite
-        var tramite = tramiteRepository.ObtenerTramitePorId(request.TramiteId);
+        var tramite = tramiteRepository.ObtenerPorId(request.TramiteId);
 
         //verificamos que exista
         if (tramite == null)
