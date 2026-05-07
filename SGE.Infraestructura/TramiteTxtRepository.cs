@@ -4,7 +4,7 @@ using SGE.Dominio.Tramites;
 
 namespace SGE.Infraestructura;
 
-public class TramiteRepository : ITramiteRepository
+public class TramiteTxtRepository : ITramiteRepository
 {
     private readonly string _archivo= "tramites.txt";
 
