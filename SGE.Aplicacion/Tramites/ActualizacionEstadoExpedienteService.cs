@@ -8,20 +8,24 @@ public class ActualizacionEstadoExpedienteService(ITramiteRepository _tramiteRep
 {
     public void ActualizarEstadoExpediente(Guid idUsuario, Guid idExpediente)
     {
-        //traemos el expediente real desde el repositorio
+        //obtenemos el expediente
         var expediente = _expedienteRepository.ObtenerPorId(idExpediente);
 
+        //verificamos que exista
         if (expediente == null) 
             throw new EntidadNoEncontradaException("El expediente no existe.");
 
-        //traemos solo los tramites del expediente
-        var tramitesDelExpediente = _tramiteRepository.ObtenerPorExpedienteId(idExpediente);
+        //obtenemos sus tramites
+        var tramites = _tramiteRepository.ObtenerPorExpedienteId(idExpediente);
 
+        //definimmos una variable con una fecha minima
         DateTime fechaMasReciente = DateTime.MinValue;
+
+        //definimos 
         EtiquetaTramite? ultimaEtiqueta = null;
 
-        //buscamos el último tramite del expediente
-        foreach(var tramite in tramitesDelExpediente)
+        //buscamos el último tramite del expediente y extraemos su etiqueta
+        foreach(var tramite in tramites)
         {
             if (tramite.FechaCreacion > fechaMasReciente)
             {
@@ -31,8 +35,10 @@ public class ActualizacionEstadoExpedienteService(ITramiteRepository _tramiteRep
             
         }
 
+        //evaluamos si su estado cambio
         bool cambio = expediente.ActualizarEstado(ultimaEtiqueta, idUsuario);
         
+        //si cambio, modifcamos el expediente
         if (cambio) _expedienteRepository.ModificarExpediente(expediente);
     }
 

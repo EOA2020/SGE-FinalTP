@@ -40,6 +40,14 @@ public class Tramite
         FechaUltimaModificacion = fechaUltimaModificacion;
     }
 
+    //Factory Method (para la reconstrucion de un tramite).
+    public static Tramite Reconstruir(Guid id, Guid expedienteId, EtiquetaTramite etiqueta, ContenidoTramite contenido,
+    DateTime fechaCreacion, DateTime fechaUltimaModificacion, Guid idUsuario)
+    {
+        return new Tramite(id, expedienteId, etiqueta, contenido, fechaCreacion, fechaUltimaModificacion, idUsuario);   
+    }
+
+    //moficar el contenido del tramite
     public void ModificarContenido(ContenidoTramite nuevoContenido, Guid idUsuario)
     {
         if(idUsuario == Guid.Empty)

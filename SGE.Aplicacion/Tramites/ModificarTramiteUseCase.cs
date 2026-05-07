@@ -32,12 +32,13 @@ public ModificarTramiteResponse Ejecutar(ModificarTramiteRequest request)
         //modifcamos el contenido
         tramite.ModificarContenido(contenido, request.IdUsuario);
  
-        //modificamos el tramite
+        //actualizamos el tramite con sus nuevos datos
         tramiteRepository.ModificarTramite(tramite);
 
         //actualizamos el ultimo expediente
         actualizacionExpediente.ActualizarEstadoExpediente(request.IdUsuario,tramite.ExpedienteId);
 
+        //retornamos una respuesta
         return new ModificarTramiteResponse();
     }
 

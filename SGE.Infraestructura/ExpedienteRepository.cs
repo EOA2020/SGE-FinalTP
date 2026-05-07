@@ -55,17 +55,17 @@ public class ExpedienteRepository: IExpedienteRepository
         var lineas= File.ReadAllLines(this._archivo);
         Boolean ok= false;
         //si no se alcanza el final y no se encontro
-        for (int i=0; i<lineas.Length & !ok; i += 6)
+        for (int i=0; i<lineas.Length && !ok; i += 6)
         {
             //si se encontro modifico los campos del archivo
             if (expediente.Id.Equals(Guid.Parse(lineas[i])))
             {
                 lineas[i]= expediente.Id.ToString() ;
-                lineas[i++]= expediente.CaractulaExp.Valor;
-                lineas[i++]= expediente.UsuarioUltimoCambio.ToString();
-                lineas[i++]= expediente.FechaCreacion.ToString();
-                lineas[i++]= expediente.FechaUltimaModificacion.ToString();                
-                lineas[i]= expediente.Estado.ToString();         
+                lineas[i+1]= expediente.CaractulaExp.Valor;
+                lineas[i+2]= expediente.UsuarioUltimoCambio.ToString();
+                lineas[i+3]= expediente.FechaCreacion.ToString();
+                lineas[i+4]= expediente.FechaUltimaModificacion.ToString();                
+                lineas[i+5]= expediente.Estado.ToString();         
 
                 ok=true;       
             }
@@ -76,6 +76,7 @@ public class ExpedienteRepository: IExpedienteRepository
         {
             this.NoSeEncuentra();
         }
+        else File.WriteAllLines(this._archivo, lineas);
     
     }
 
@@ -102,9 +103,7 @@ public class ExpedienteRepository: IExpedienteRepository
 
                 return this.ObtenerExpediente(datos);
             }
-        }
-
-        
+        }        
         return null;
     }
 
@@ -112,16 +111,18 @@ public class ExpedienteRepository: IExpedienteRepository
     {
         int i=0;
         //convierto datos en lista a su tipo
-        datos[i]= Guid.Parse((string)datos[i++]);
-        datos[i]= new Caratula((string)datos[i++]);
-        datos[i]= Guid.Parse((string)datos[i++]);
-        datos[i]=  DateTime.Parse((string)datos[i++]);
-        datos[i]= DateTime.Parse((string)datos[i++]);
-        datos[i]= (EstadoExpediente)Enum.Parse(typeof (EstadoExpediente), (string)datos[i]);
+        datos[0]= Guid.Parse((string)datos[0] ?? "");                                                   //id
+        datos[1]= new Caratula((string)datos[1] ?? "");                                                 //caratula
+        datos[2]= Guid.Parse((string)datos[2] ?? "");                                                   //usuarioUltimosCambios
+        datos[3]=  DateTime.Parse((string)datos[3] ?? "2000-01-01");                                    //fechaCreacion
+        datos[4]= DateTime.Parse((string)datos[4] ?? "2000-01-01");                                     //fechaUltimaModificacion
+        datos[5]= (EstadoExpediente)Enum.Parse(typeof (EstadoExpediente), (string)datos[5] ?? "");      //estado
 
         //devuelvo expediente reconstruido
         return Expediente.Reconstruir((Guid)datos[0], (Caratula)datos[1], (Guid)datos[2],(DateTime)datos[3],(DateTime)datos[4],(EstadoExpediente)datos[5]);
     }
+
+    /*
     public List<Expediente> ObtenerTodos()
     {
         List<Expediente> resultado= new List<Expediente>();
@@ -134,7 +135,7 @@ public class ExpedienteRepository: IExpedienteRepository
         using var sr = new StreamReader(this._archivo);
         while (!sr.EndOfStream)
         {
-           /*
+           
             //Se van leyendo las lineas con datos y se guarda c/u en un var
             var  idStr= sr.ReadLine() ?? "";
             var caratulaStr= sr.ReadLine() ?? "";
@@ -144,32 +145,49 @@ public class ExpedienteRepository: IExpedienteRepository
             var estadoStr = sr.ReadLine() ?? "";
 
             //Se convierte
-            /*
             var id= Guid.Parse(idStr);
             var caratula= new Caratula(caratulaStr);
             var UsuarioUltimoCambio= Guid.Parse(usuarioUltimoCambioStr);
             var fechaCreacion=  DateTime.Parse(fechaCreacionStr);
             var fechaUltimaModificacion= DateTime.Parse(fechaUltimaModificacionStr);          
             var estado= (EstadoExpediente)Enum.Parse(typeof (EstadoExpediente), estadoStr);
-            */
-
-            
-            /*
-            List<object> datos= new List<object>();
-            for (int i=0; i < 6; i++)
-            {
-                datos.Add()
-            }
-
+  
             //armamos el Expediente
+            var expediente= Expediente.Reconstruir(id, caratula, UsuarioUltimoCambio, fechaCreacion, fechaUltimaModificacion, estado);
            // var expediente= Expediente.Reconstruir(id, caratula, UsuarioUltimoCambio, fechaCreacion, fechaUltimaModificacion, estado);
             //agregamos expediente a la lista
-            resultado.Add(expediente);*/
+            resultado.Add(expediente);
         }
         //Devolvemos la lista de expedientes
-        return resultado;
+        return resultado; 
+    } */
 
+    public List<Expediente> ObtenerTodos()
+    {
+        List<Expediente> resultado= new List<Expediente>();
+
+        //si archivo no existe devuelve lista vacia
+        if (!File.Exists(this._archivo))
+        {
+            return resultado;
+        }
         
-    }
+        var lineas=  File.ReadAllLines(this._archivo);
+        for (int i=0; i< lineas.Length; i+=6)
+        {
+            List<object> datos= new List<object> ();
+            for (int j=0; j<6; j++)
+            {
+                datos.Add(lineas[i+j]);
+            } 
+
+            var expediente= this.ObtenerExpediente(datos);
+           
+            //agregamos expediente a la lista
+            resultado.Add(expediente);
+        }
+        //Devolvemos la lista de expedientes
+        return resultado; 
+    }    
 
 }
