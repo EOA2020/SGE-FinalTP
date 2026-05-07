@@ -3,11 +3,10 @@ using SGE.Aplicacion.Expedientes;
 using SGE.Infraestructura;
 
 //instanciamos el repositorio que vamos a inyectar en nuestro caso de uso
-var repositorioExpediente = new ExpedienteTxtRepository();
+var repositorioExpediente = new ExpedienteRepository();
 
 //instanciamos el servicio de autorizacion que vamos a inyectar
 var autorizacionService = new AutorizacionService();
-
 //creamos un usuario 
 Guid idUsuario = Guid.NewGuid();
 
