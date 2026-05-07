@@ -47,7 +47,7 @@ public class Tramite
         return new Tramite(id, expedienteId, etiqueta, contenido, fechaCreacion, fechaUltimaModificacion, idUsuario);   
     }
 
-    //moficar el contenido del tramite
+    //modificar el contenido del tramite
     public void ModificarContenido(ContenidoTramite nuevoContenido, Guid idUsuario)
     {
         if(idUsuario == Guid.Empty)
