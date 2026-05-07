@@ -1,4 +1,3 @@
-using System;
 using SGE.Aplicacion.Expedientes;
 using SGE.Dominio.Comun;
 using SGE.Dominio.Expedientes;
@@ -44,10 +43,7 @@ public class ExpedienteRepository: IExpedienteRepository
         }
 
         //si no esta lanzo excepcion
-        if (!ok)
-        {
-            this.NoSeEncuentra();
-        }        
+        if (!ok) throw new RepositorioException("El expediente no existe!");      
     }
 
     public void ModificarExpediente(Expediente expediente)
@@ -72,18 +68,8 @@ public class ExpedienteRepository: IExpedienteRepository
         }
         
         //si no esta lanzo excepcion (devuelvo)
-        if (!ok)
-        {
-            this.NoSeEncuentra();
-        }
-        else File.WriteAllLines(this._archivo, lineas);
+        if (!ok) throw new RepositorioException("El expediente no existe!");
     
-    }
-
-    //Lanza excepcion
-    private void NoSeEncuentra()
-    {
-        throw new DominioException("No se encuentra el expediente");
     }
 
     public Expediente? ObtenerPorId(Guid id)

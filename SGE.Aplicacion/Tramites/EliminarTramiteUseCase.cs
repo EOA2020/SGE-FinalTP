@@ -29,7 +29,7 @@ public class EliminarExpedienteUseCase(ITramiteRepository tramiteRepository,  IA
             throw new EntidadNoEncontradaException("El tramite no existe");
 
         //lo eliminamos
-        tramiteRepository.EliminarTramite(tramite);
+        tramiteRepository.EliminarTramite(tramite.Id);
         
         //actualizamos el aultimo expediente
         actualizacionExpediente.ActualizarEstadoExpediente(request.IdUsuario,tramite.ExpedienteId);
