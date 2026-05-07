@@ -6,6 +6,6 @@ public interface ITramiteRepository
     void AgregarTramite(Tramite tramite);
     void ModificarTramite(Tramite tramite);
     Tramite? ObtenerPorId(Guid idTramite);
-    void EliminarTramite(Tramite Tramite);
+    void EliminarTramite(Guid idTramite);
     IEnumerable<Tramite> ObtenerPorExpedienteId(Guid expedienteId); 
 }
