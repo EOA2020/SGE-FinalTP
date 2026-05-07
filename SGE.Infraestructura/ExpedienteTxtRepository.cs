@@ -5,13 +5,16 @@ using SGE.Dominio.Expedientes;
 
 namespace SGE.Infraestructura;
 
-public class ExpedienteTxtRepository: IExpedienteRepository
+public class ExpedienteRepository: IExpedienteRepository
 {
 
     private readonly string _archivo= "Expediente.txt";
 
     public void AgregarExpediente(Expediente expediente)
     {
+        //si no se encuentra archivo dispara excepcion
+        if (!File.Exists(this._archivo)) throw new RepositorioException("El archivo de expedientes no existe!");
+
         //Creacion de objeto para recorrer archivo. Variable de append, si true agrega al final, sino sobreescribe
         using var sw= new StreamWriter(this._archivo, true);
         
@@ -26,6 +29,9 @@ public class ExpedienteTxtRepository: IExpedienteRepository
 
     public void EliminarExpediente(Guid id)
     {
+        //si no se encuentra archivo dispara excepcion
+        if (!File.Exists(this._archivo)) throw new RepositorioException("El archivo de expedientes no existe!");
+
         //Creacion de objeto que contiene todas las lineas del archivo, para recorrerlo
         var lineas= File.ReadAllLines(this._archivo);
         
@@ -38,7 +44,8 @@ public class ExpedienteTxtRepository: IExpedienteRepository
             {
                 //se sobreescribe campo UsuarioUltimoCambio
                 lineas[i+2]= "***";
-                ok= true;
+                File.WriteAllLines(this._archivo, lineas);
+                ok= true;                
             }
         }
 
@@ -48,12 +55,15 @@ public class ExpedienteTxtRepository: IExpedienteRepository
 
     public void ModificarExpediente(Expediente expediente)
     {
+        //si no se encuentra archivo dispara excepcion
+        if (!File.Exists(this._archivo)) throw new RepositorioException("El archivo de expedientes no existe!");
+
         var lineas= File.ReadAllLines(this._archivo);
         Boolean ok= false;
         //si no se alcanza el final y no se encontro
         for (int i=0; i<lineas.Length && !ok; i += 6)
         {
-            //si se encontro modifico los campos del archivo
+            //si se encontro modifico los campos
             if (expediente.Id.Equals(Guid.Parse(lineas[i])))
             {
                 lineas[i]= expediente.Id.ToString() ;
@@ -61,8 +71,10 @@ public class ExpedienteTxtRepository: IExpedienteRepository
                 lineas[i+2]= expediente.UsuarioUltimoCambio.ToString();
                 lineas[i+3]= expediente.FechaCreacion.ToString();
                 lineas[i+4]= expediente.FechaUltimaModificacion.ToString();                
-                lineas[i+5]= expediente.Estado.ToString();         
+                lineas[i+5]= expediente.Estado.ToString();     
 
+                //Modifico el archivo con los cambios realizados
+                File.WriteAllLines(this._archivo, lineas);
                 ok=true;       
             }
         }
@@ -95,14 +107,13 @@ public class ExpedienteTxtRepository: IExpedienteRepository
 
     private Expediente ObtenerExpediente(List<object> datos)
     {
-        int i=0;
         //convierto datos en lista a su tipo
         datos[0]= Guid.Parse((string)datos[0] ?? "");                                                   //id
         datos[1]= new Caratula((string)datos[1] ?? "");                                                 //caratula
         datos[2]= Guid.Parse((string)datos[2] ?? "");                                                   //usuarioUltimosCambios
         datos[3]=  DateTime.Parse((string)datos[3] ?? "2000-01-01");                                    //fechaCreacion
         datos[4]= DateTime.Parse((string)datos[4] ?? "2000-01-01");                                     //fechaUltimaModificacion
-        datos[5]= (EstadoExpediente)Enum.Parse(typeof (EstadoExpediente), (string)datos[5] ?? "");      //estado
+        datos[5]= Enum.Parse<EstadoExpediente>((string)datos[5] ?? "");                                 //estado
 
         //devuelvo expediente reconstruido
         return Expediente.Reconstruir((Guid)datos[0], (Caratula)datos[1], (Guid)datos[2],(DateTime)datos[3],(DateTime)datos[4],(EstadoExpediente)datos[5]);
