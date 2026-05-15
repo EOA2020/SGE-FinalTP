@@ -39,6 +39,10 @@ public class TramiteTxtRepository : ITramiteRepository
             //si tiene mismo id de tramite se modifica idUltimoCambio realizando borrado logico
             if (idTramite.Equals(Guid.Parse((string)lineas[i])))
             {
+                //Si tramite ya fue borrado tira excepcion
+                if (lineas[i+6].Equals("***")) throw new RepositorioException("El tramite no existe!"); 
+
+                //Sino se realiza borrado logico
                 lineas[i+6]="***";
                 File.WriteAllLines(this._archivo, lineas);
 
@@ -46,6 +50,7 @@ public class TramiteTxtRepository : ITramiteRepository
             }
         }
 
+        //Si no se encontro tramite arroja excepcion
         if (!ok) throw new RepositorioException("El tramite no existe!");
     }
 
@@ -61,6 +66,9 @@ public class TramiteTxtRepository : ITramiteRepository
         {
             if (tramite.Id.Equals(Guid.Parse((string)lineas[i])) && !lineas[i+6].Equals("***"))
             {
+                //Si tramite ya fue borrado tira excepcion
+                if (lineas[i+6].Equals("***")) throw new RepositorioException("El tramite no existe!"); 
+
                 //Modifica cada campo por los nuevos valores
                 lineas[i]= tramite.Id.ToString();
                 lineas[i+1]= tramite.ExpedienteId.ToString();

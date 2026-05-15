@@ -40,8 +40,11 @@ public class ExpedienteTxtRepository: IExpedienteRepository
         for (int i=0; i<lineas.Length && !ok; i += 6)
         {
             //Si id de registro igual a id buscado se realiza borrado logico
-            if (id.Equals(Guid.Parse(lineas[i])) && !lineas[i+2].Equals("***"))
+            if (id.Equals(Guid.Parse(lineas[i])))
             {
+               //si registro ya fue borrado de forma logica arroja excepcion
+               if (lineas[i + 2].Equals("***")) throw new RepositorioException ($"El expediente con id {id} no existe");
+                
                 //se sobreescribe campo UsuarioUltimoCambio
                 lineas[i+2]= "***";
                 File.WriteAllLines(this._archivo, lineas);
@@ -49,7 +52,7 @@ public class ExpedienteTxtRepository: IExpedienteRepository
             }
         }
 
-        //si no esta lanzo excepcion
+        //si no esta lanza excepcion
         if (!ok) throw new RepositorioException("El expediente no existe!");      
     }
 
@@ -64,8 +67,11 @@ public class ExpedienteTxtRepository: IExpedienteRepository
         for (int i=0; i<lineas.Length && !ok; i += 6)
         {
             //si se encontro modifico los campos
-            if (expediente.Id.Equals(Guid.Parse(lineas[i])) && !lineas[i+2].Equals("***"))
+            if (expediente.Id.Equals(Guid.Parse(lineas[i])))
             {
+                //Si expediente fue borrado lanza excepcion
+                if (lineas[i + 2].Equals("***")) throw new RepositorioException ($"El expediente con id {expediente.Id} no existe");
+
                 lineas[i]= expediente.Id.ToString() ;
                 lineas[i+1]= expediente.CaractulaExp.Valor;
                 lineas[i+2]= expediente.UsuarioUltimoCambio.ToString();
