@@ -35,7 +35,7 @@ public class EliminarExpedienteUseCase(ITramiteRepository tramiteRepository,  IA
         actualizacionExpediente.ActualizarEstadoExpediente(request.IdUsuario,tramite.ExpedienteId);
 
         //retornamos una respuesta
-        return new EliminarTramiteUseCaseResponse();
+        return new EliminarTramiteUseCaseResponse(request.IdTramite);
         
     } 
 }

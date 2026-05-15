@@ -2,7 +2,7 @@ using System;
 
 namespace SGE.Aplicacion.Tramites;
 
-public record class ModificarTramiteResponse()
+public record class ModificarTramiteResponse(Guid IdTramite)
 {
 
 }

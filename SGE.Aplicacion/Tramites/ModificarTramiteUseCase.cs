@@ -39,7 +39,7 @@ public ModificarTramiteResponse Ejecutar(ModificarTramiteRequest request)
         actualizacionExpediente.ActualizarEstadoExpediente(request.IdUsuario,tramite.ExpedienteId);
 
         //retornamos una respuesta
-        return new ModificarTramiteResponse();
+        return new ModificarTramiteResponse(request.TramiteId);
     }
 
 
