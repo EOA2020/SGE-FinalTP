@@ -2,6 +2,7 @@
 using SGE.Aplicacion.Expedientes;
 using SGE.Aplicacion.Comun;
 using SGE.Infraestructura;
+using SGE.Aplicacion.Tramites;
 
 //instanciamos el repositorio que vamos a inyectar en nuestro caso de uso
 var repositorioExpediente = new ExpedienteTxtRepository();
@@ -68,8 +69,8 @@ foreach(var e in listaExpedientes.Expedientes)
 /////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////
-////// PRUEBA UNITARIA - CASO DE USO PARA OBTENER UN EXPEDIENTE POR ID /////
-///////////////////////////////////////////////////////////////////////////
+////// PRUEBA UNITARIA - CASO DE USO PARA OBTENER UN EXPEDIENTE POR ID //////
+/////////////////////////////////////////////////////////////////////////////
 
 var obtenerExpedientePorId = new ObtenerPorIdExpedienteCaseUse(repositorioExpediente);
 var obtenerExpedientePorIdResponse = new ObtenerPorIdExpedienteRequest(Guid.Parse("e1fe34b9-c05f-4f54-b14d-b890d67c4acf"));
@@ -80,3 +81,39 @@ Console.WriteLine($"Caratula del expediente 'e1fe34b9-c05f-4f54-b14d-b890d67c4ac
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
+
+//instanciamos el repositorio que vamos a inyectar en nuestro caso de uso
+var repositorioTramite = new TramiteTxtRepository();
+
+//instanciamos el servicio de actualizacion de estado de expediente que vamos a inyectar
+var actualizacionEstadoExpediente = new ActualizacionEstadoExpedienteService(repositorioTramite,repositorioExpediente);
+
+/////////////////////////////////////////////////////////////////////
+////// PRUEBA UNITARIA - CASO DE USO PARA AGREGAR UN TRAMITE ////////
+/////////////////////////////////////////////////////////////////////
+
+Console.WriteLine($"El id del usuario es: {idUsuario}");
+
+//crear la instancia de el caso de uso - AgregarTramiteUseCase e inyectamos la dependencia
+var agregarTramite = new AgregarTramiteUseCase(repositorioTramite,autorizacionService,actualizacionEstadoExpediente);
+
+//creamos nuestra peticion para crear un archivo
+var agregarTramiteRequest = new AgregarTramiteRequest(
+    Guid.Parse("e1fe34b9-c05f-4f54-b14d-b890d67c4acf"), //id del expediente
+    "Nuevo contenido",  //cotenido
+    idUsuario //usuario que creo el expediente
+);
+
+//usamos un try catch para captar errores
+try
+{
+    //creamos la variable donde nuestro caso de uso no vas a retornar una respuesta
+    var agregarTramiteResponse = agregarTramite.Ejecutar(agregarTramiteRequest);
+
+    //verificamos que en nuestro agregarTramiteResponse (respuesta) este el id del tramite agregado
+    Console.WriteLine(agregarTramiteResponse.IdTramite);
+}
+catch (AplicacionException e)
+{   
+    Console.WriteLine(e.Message);
+}
