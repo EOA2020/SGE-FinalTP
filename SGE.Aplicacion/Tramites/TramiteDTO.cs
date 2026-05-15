@@ -1,5 +1,3 @@
-using System;
-
 namespace SGE.Aplicacion.Tramites;
 
 public record class TramiteDTO(
@@ -10,6 +8,5 @@ public record class TramiteDTO(
     DateTime FechaCreacion,
     DateTime FechaUltimaModificacion, 
     Guid UsuarioUltimoCambio
-)
-{}
+);
 
