@@ -171,8 +171,6 @@ var actualizacionEstadoExpediente = new ActualizacionEstadoExpedienteService(rep
 ////// PRUEBA UNITARIA - CASO DE USO PARA AGREGAR UN TRAMITE ////////
 /////////////////////////////////////////////////////////////////////
 
-Console.WriteLine($"El id del usuario es: {idUsuario}");
-
 //crear la instancia de el caso de uso - AgregarTramiteUseCase e inyectamos la dependencia
 var agregarTramite = new AgregarTramiteUseCase(repositorioTramite,autorizacionService,actualizacionEstadoExpediente);
 
@@ -190,7 +188,7 @@ try
     var agregarTramiteResponse = agregarTramite.Ejecutar(agregarTramiteRequest);
 
     //verificamos que en nuestro agregarTramiteResponse (respuesta) este el id del tramite agregado
-    Console.WriteLine(agregarTramiteResponse.IdTramite);
+    Console.WriteLine($"el id del tramite es: {agregarTramiteResponse.IdTramite}");
 }
 catch (AplicacionException e)
 {   
