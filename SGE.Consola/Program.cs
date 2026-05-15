@@ -4,7 +4,6 @@ using SGE.Aplicacion.Comun;
 using SGE.Infraestructura;
 using SGE.Dominio.Comun;
 using SGE.Aplicacion.Tramites;
-using SGE.Dominio.Comun;
 
 //instanciamos el repositorio que vamos a inyectar en nuestro caso de uso
 var repositorioExpediente = new ExpedienteTxtRepository();
