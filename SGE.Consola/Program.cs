@@ -2,6 +2,7 @@
 using SGE.Aplicacion.Expedientes;
 using SGE.Aplicacion.Comun;
 using SGE.Infraestructura;
+using SGE.Dominio.Comun;
 using SGE.Aplicacion.Tramites;
 
 //instanciamos el repositorio que vamos a inyectar en nuestro caso de uso
@@ -16,9 +17,10 @@ Guid idUsuario = Guid.NewGuid();
 ////// PRUEBA UNITARIA - CASO DE USO PARA AGREGAR UN EXPEDIENTE ////
 ////////////////////////////////////////////////////////////////////
 
-Console.WriteLine($"El id del usuario es: {idUsuario}");
-
 //crear la instancia de el caso de uso - AgregarExpedienteUseCase e inyectamos la dependencia
+Console.WriteLine("/////////////////////////////////////////////////////////////////////");
+Console.WriteLine("////// PRUEBA UNITARIA - CASO DE USO PARA AGREGAR UN EXPEDIENTE ////");
+Console.WriteLine("////////////////////////////////////////////////////////////////////");
 var agregarExpediente = new AgregarExpedienteUseCase(repositorioExpediente, autorizacionService);
 
 //creamos nuestra peticion para crear un archivo
@@ -34,22 +36,34 @@ try
     var agregarExpedienteResponse = agregarExpediente.Ejecutar(agregarExpedienteRequest);
 
     //verificamos que en nuestro agregarExpedienteResponse (respuesta) este el id del expediente agregado
-    Console.WriteLine(agregarExpedienteResponse.IdExpediente);
+    Console.WriteLine($"Id del expediente agreagado: {agregarExpedienteResponse.IdExpediente}");
 }
-catch (AplicacionException e)
-{   
+catch(AplicacionException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch(DominioException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch(RepositorioException e)
+{
+    Console.WriteLine(e.Message);
+}catch(Exception e)
+{
     Console.WriteLine(e.Message);
 }
 
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-
+Console.WriteLine();
+Console.WriteLine();
 
 /////////////////////////////////////////////////////////////////////////////
 ////// PRUEBA UNITARIA - CASO DE USO PARA OBTENER TODOS LOS EXPEDIENTE /////
 ///////////////////////////////////////////////////////////////////////////
 
+Console.WriteLine("/////////////////////////////////////////////////////////////////////");
+Console.WriteLine("////// PRUEBA UNITARIA - CASO DE USO PARA OBTENER TODOS LOS EXPEDIENTE ////");
+Console.WriteLine("////////////////////////////////////////////////////////////////////");
 //creamos la instancia del caso de uso - ObtenerTodosExpedienteUseCase e inyectamos dependencias
 var obtenerTodosExpedientes = new ObtenerTodosExpedienteUseCase(repositorioExpediente);
 
@@ -61,22 +75,44 @@ foreach(var e in listaExpedientes.Expedientes)
 {
     Console.WriteLine($"id: {e.Id} | caratula: {e.Caratula} | Fecha de Creacion: {e.FechaCreacion} |");
     Console.WriteLine($"Fecha de Ultima Actualizacion: {e.FechaUltimaModificacion} | Ultimo usuario: {e.UsuarioUltimoCambio} | Estado: {e.Estado}");
-    Console.WriteLine("///////////////////////////////////////////////////////////////////////////////////////////////////");
+    Console.WriteLine("-------------------------------------------------------------------------------------------------------");
 }
 
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
+Console.WriteLine();
+Console.WriteLine();
 
 /////////////////////////////////////////////////////////////////////////////
 ////// PRUEBA UNITARIA - CASO DE USO PARA OBTENER UN EXPEDIENTE POR ID //////
 /////////////////////////////////////////////////////////////////////////////
 
+Console.WriteLine("/////////////////////////////////////////////////////////////////////");
+Console.WriteLine("////// PRUEBA UNITARIA - CASO DE USO PARA OBTENER UN EXPEDIENTE POR ID ////");
+Console.WriteLine("////////////////////////////////////////////////////////////////////");
+Console.WriteLine("El id a buscar es: 'e1fe34b9-c05f-4f54-b14d-b890d67c4acf'");
 var obtenerExpedientePorId = new ObtenerPorIdExpedienteCaseUse(repositorioExpediente);
 var obtenerExpedientePorIdResponse = new ObtenerPorIdExpedienteRequest(Guid.Parse("e1fe34b9-c05f-4f54-b14d-b890d67c4acf"));
 
-var expedienteId = obtenerExpedientePorId.Ejecutar(obtenerExpedientePorIdResponse);
-Console.WriteLine($"Caratula del expediente 'e1fe34b9-c05f-4f54-b14d-b890d67c4acf' encontrado: {expedienteId.Expediente.Caratula}");
+try
+{
+    var expedienteId = obtenerExpedientePorId.Ejecutar(obtenerExpedientePorIdResponse);
+    Console.WriteLine($"id: {expedienteId.Expediente.Id} | caratula: {expedienteId.Expediente.Caratula} | Fecha de Creacion: {expedienteId.Expediente.FechaCreacion} |");
+    Console.WriteLine($"Fecha de Ultima Actualizacion: {expedienteId.Expediente.FechaUltimaModificacion} | Ultimo usuario: {expedienteId.Expediente.UsuarioUltimoCambio} | Estado: {expedienteId.Expediente.Estado}");
+}
+catch(AplicacionException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch(DominioException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch(RepositorioException e)
+{
+    Console.WriteLine(e.Message);
+}catch(Exception e)
+{
+    Console.WriteLine(e.Message);
+}
 
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
@@ -92,7 +128,9 @@ var actualizacionEstadoExpediente = new ActualizacionEstadoExpedienteService(rep
 ////// PRUEBA UNITARIA - CASO DE USO PARA AGREGAR UN TRAMITE ////////
 /////////////////////////////////////////////////////////////////////
 
-Console.WriteLine($"El id del usuario es: {idUsuario}");
+Console.WriteLine("////////////////////////////////////////////////////////////////////");
+Console.WriteLine("////// PRUEBA UNITARIA - CASO DE USO PARA AGREGAR UN TRAMITE ///////");
+Console.WriteLine("////////////////////////////////////////////////////////////////////");
 
 //crear la instancia de el caso de uso - AgregarTramiteUseCase e inyectamos la dependencia
 var agregarTramite = new AgregarTramiteUseCase(repositorioTramite,autorizacionService,actualizacionEstadoExpediente);
@@ -115,5 +153,16 @@ try
 }
 catch (AplicacionException e)
 {   
+    Console.WriteLine(e.Message);
+}
+catch(DominioException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch(RepositorioException e)
+{
+    Console.WriteLine(e.Message);
+}catch(Exception e)
+{
     Console.WriteLine(e.Message);
 }
