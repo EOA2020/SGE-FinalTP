@@ -12,8 +12,6 @@ public class TramiteTxtRepository : ITramiteRepository
     //Agrega tramite al archivo
     public void AgregarTramite(Tramite tramite)
     {
-        //si no se encuentra archivo dispara excepcion
-        if (!File.Exists(this._archivo)) throw new RepositorioException("El archivo de tramites no existe!");
         
         using var sw= new StreamWriter(this._archivo, true);
         sw.WriteLine(tramite.Id);
@@ -112,13 +110,13 @@ public class TramiteTxtRepository : ITramiteRepository
         }
         var lineas= File.ReadAllLines(this._archivo);
         //recorre a partir de la posicion 1 entrando en campo idExpediente de cada tramite
-        for (int i=1; i<lineas.Length; i += 7)
+        for (int i=0; i<lineas.Length; i += 7)
         {
-            if (expedienteId.Equals(Guid.Parse((string)lineas[i])) && !lineas[i+6].Equals("***"))
+            if (expedienteId.Equals(Guid.Parse((string)lineas[i + 1])) && !lineas[i+6].Equals("***"))
             {
                 //lista de objetos para guardar los campos
                 var datos= new List<object>();
-                for (int j= i-1; j<=(i+5); j++)
+                for (int j= i; j<=(i+6); j++)
                 {
                     datos.Add(lineas[j]);
                 }

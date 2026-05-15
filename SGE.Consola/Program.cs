@@ -4,6 +4,7 @@ using SGE.Aplicacion.Comun;
 using SGE.Infraestructura;
 using SGE.Dominio.Comun;
 using SGE.Aplicacion.Tramites;
+using SGE.Dominio.Comun;
 
 //instanciamos el repositorio que vamos a inyectar en nuestro caso de uso
 var repositorioExpediente = new ExpedienteTxtRepository();
@@ -114,6 +115,49 @@ catch(RepositorioException e)
     Console.WriteLine(e.Message);
 }
 
+Console.WriteLine();
+Console.WriteLine();
+
+/////////////////////////////////////////////////////////////////////////////
+////// PRUEBA UNITARIA - CASO DE USO PARA MODIFICAR UN EXPEDIENTE - CARATULA Y ESTADO /////
+///////////////////////////////////////////////////////////////////////////
+
+Console.WriteLine("/////////////////////////////////////////////////////////////////////");
+Console.WriteLine("////// PRUEBA UNITARIA - CASO DE USO PARA MODIFICAR UN EXPEDIENTE - CARATULA Y ESTADO ////");
+Console.WriteLine("////////////////////////////////////////////////////////////////////");
+Console.WriteLine("El id expediente a modificar: '40e780ea-0327-47c7-a71b-b8efec64c1f8'");
+var modificarExpediente = new ModificarCaratulaExpedienteUseCase(repositorioExpediente, autorizacionService);
+var cambiarEstado = new CambiarEstadoExpedienteUseCase(repositorioExpediente, autorizacionService);
+var modicarExpedienteRequest = new ModificarCaratulaExpedienteRequest(Guid.Parse("40e780ea-0327-47c7-a71b-b8efec64c1f8"), "cambio de caratula", idUsuario);
+var cambiarEstadoRequest = new CambiarEstadoExpedienteRequest(Guid.Parse("1ebb58b7-4599-43d4-8f19-61667461cee5"), "ConResolucion", idUsuario);
+
+try
+{
+    var expedienteModificado1 = modificarExpediente.Ejecutar(modicarExpedienteRequest);
+    var expedienteModificado2 = cambiarEstado.Ejecutar(cambiarEstadoRequest);
+    Console.WriteLine($"El expediente con id {expedienteModificado1.IdExpediente} se le cambio la caratula");
+    Console.WriteLine($"El expediente con id {expedienteModificado2.IdExpediente} se le cambio el estado");
+}
+catch(AplicacionException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch(DominioException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch(RepositorioException e)
+{
+    Console.WriteLine(e.Message);
+}catch(Exception e)
+{
+    Console.WriteLine(e.Message);
+}
+
+Console.WriteLine();
+Console.WriteLine();
+
+
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
@@ -127,10 +171,6 @@ var actualizacionEstadoExpediente = new ActualizacionEstadoExpedienteService(rep
 /////////////////////////////////////////////////////////////////////
 ////// PRUEBA UNITARIA - CASO DE USO PARA AGREGAR UN TRAMITE ////////
 /////////////////////////////////////////////////////////////////////
-
-Console.WriteLine("////////////////////////////////////////////////////////////////////");
-Console.WriteLine("////// PRUEBA UNITARIA - CASO DE USO PARA AGREGAR UN TRAMITE ///////");
-Console.WriteLine("////////////////////////////////////////////////////////////////////");
 
 //crear la instancia de el caso de uso - AgregarTramiteUseCase e inyectamos la dependencia
 var agregarTramite = new AgregarTramiteUseCase(repositorioTramite,autorizacionService,actualizacionEstadoExpediente);
@@ -149,7 +189,7 @@ try
     var agregarTramiteResponse = agregarTramite.Ejecutar(agregarTramiteRequest);
 
     //verificamos que en nuestro agregarTramiteResponse (respuesta) este el id del tramite agregado
-    Console.WriteLine(agregarTramiteResponse.IdTramite);
+    Console.WriteLine($"el id del tramite es: {agregarTramiteResponse.IdTramite}");
 }
 catch (AplicacionException e)
 {   
