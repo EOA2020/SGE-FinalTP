@@ -1,9 +1,10 @@
 ﻿using SGE.Aplicacion.Autorizacion;
 using SGE.Aplicacion.Expedientes;
+using SGE.Aplicacion.Comun;
 using SGE.Infraestructura;
 
 //instanciamos el repositorio que vamos a inyectar en nuestro caso de uso
-var repositorioExpediente = new ExpedienteRepository();
+var repositorioExpediente = new ExpedienteTxtRepository();
 
 //instanciamos el servicio de autorizacion que vamos a inyectar
 var autorizacionService = new AutorizacionService();
@@ -34,7 +35,7 @@ try
     //verificamos que en nuestro agregarExpedienteResponse (respuesta) este el id del expediente agregado
     Console.WriteLine(agregarExpedienteResponse.IdExpediente);
 }
-catch (Exception e)
+catch (AplicacionException e)
 {   
     Console.WriteLine(e.Message);
 }
@@ -61,6 +62,20 @@ foreach(var e in listaExpedientes.Expedientes)
     Console.WriteLine($"Fecha de Ultima Actualizacion: {e.FechaUltimaModificacion} | Ultimo usuario: {e.UsuarioUltimoCambio} | Estado: {e.Estado}");
     Console.WriteLine("///////////////////////////////////////////////////////////////////////////////////////////////////");
 }
+
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////
+////// PRUEBA UNITARIA - CASO DE USO PARA OBTENER UN EXPEDIENTE POR ID /////
+///////////////////////////////////////////////////////////////////////////
+
+var obtenerExpedientePorId = new ObtenerPorIdExpedienteCaseUse(repositorioExpediente);
+var obtenerExpedientePorIdResponse = new ObtenerPorIdExpedienteRequest(Guid.Parse("e1fe34b9-c05f-4f54-b14d-b890d67c4acf"));
+
+var expedienteId = obtenerExpedientePorId.Ejecutar(obtenerExpedientePorIdResponse);
+Console.WriteLine($"Caratula del expediente 'e1fe34b9-c05f-4f54-b14d-b890d67c4acf' encontrado: {expedienteId.Expediente.Caratula}");
 
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
