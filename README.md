@@ -266,9 +266,9 @@ Este proyecto busca aplicar:
 
 Este proyecto fue desarrollado por:
 
-- 👨‍💻 **Sergio Ariel Paredes**
-- 👩‍💻 **Cristal Milagros Andrade**
-- 👨‍💻 **Elias Nahuel Lopez**
+- 👨‍💻 [**Sergio Ariel Paredes**](https://github.com/EOA2020)
+- 👩‍💻 [**Cristal Milagros Andrade**](https://github.com/andradecristal)
+- 👨‍💻 [**Elias Nahuel Lopez**](https://github.com/nauelo)
 
 Proyecto desarrollado con fines académicos y de aprendizaje.
 
