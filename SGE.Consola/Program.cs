@@ -2,7 +2,6 @@
 using SGE.Aplicacion.Expedientes;
 using SGE.Aplicacion.Comun;
 using SGE.Infraestructura;
-using SGE.Aplicacion.Tramites;
 using SGE.Dominio.Comun;
 using EliminarExpedienteUseCase = SGE.Aplicacion.Expedientes.EliminarExpedienteUseCase;
 
@@ -246,6 +245,17 @@ catch (AplicacionException e)
 {   
     Console.WriteLine(e.Message);
 }catch(DominioException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch(RepositorioException e)
+{
+    Console.WriteLine(e.Message);
+}catch(Exception e)
+{
+    Console.WriteLine(e.Message);
+}
+catch(DominioException e)
 {
     Console.WriteLine(e.Message);
 }
