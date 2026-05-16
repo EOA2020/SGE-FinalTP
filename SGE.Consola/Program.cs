@@ -4,6 +4,7 @@ using SGE.Aplicacion.Comun;
 using SGE.Infraestructura;
 using SGE.Dominio.Comun;
 using EliminarExpedienteUseCase = SGE.Aplicacion.Expedientes.EliminarExpedienteUseCase;
+using SGE.Aplicacion.Tramites;
 
 /// ----------------------------- EXPEDIENTES --------------------------------- ///
 
@@ -111,7 +112,7 @@ try
     Console.WriteLine($"Fecha de Ultima Actualizacion: {expedienteId.Expediente.FechaUltimaModificacion} | Ultimo usuario: {expedienteId.Expediente.UsuarioUltimoCambio} | Estado: {expedienteId.Expediente.Estado}");
 
     //prueba de error
-    var expedienteIdError = obtenerExpedientePorId.Ejecutar(obtenerExpedientePorIdErrorResponse);
+    var expedienteIdError = obtenerPorIdExpediente.Ejecutar(obtenerPorIdExpedienteRequest);
 }
 catch(AplicacionException e)
 {
@@ -252,17 +253,6 @@ catch (AplicacionException e)
 {   
     Console.WriteLine(e.Message);
 }catch(DominioException e)
-{
-    Console.WriteLine(e.Message);
-}
-catch(RepositorioException e)
-{
-    Console.WriteLine(e.Message);
-}catch(Exception e)
-{
-    Console.WriteLine(e.Message);
-}
-catch(DominioException e)
 {
     Console.WriteLine(e.Message);
 }
