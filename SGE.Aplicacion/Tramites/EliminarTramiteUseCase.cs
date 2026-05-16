@@ -5,9 +5,9 @@ using SGE.Dominio.Tramites;
 
 namespace SGE.Aplicacion.Tramites;
 
-public class EliminarExpedienteUseCase(ITramiteRepository tramiteRepository,  IAutorizacionService autorizacionService, ActualizacionEstadoExpedienteService actualizacionExpediente)
+public class EliminarTramiteUseCase(ITramiteRepository tramiteRepository,  IAutorizacionService autorizacionService, ActualizacionEstadoExpedienteService actualizacionExpediente)
 {
-    public EliminarTramiteUseCaseResponse Ejecutar(EliminarTramiteUseCaseRequest request)
+    public EliminarTramiteResponse Ejecutar(EliminarTramiteRequest request)
     {
         //verificamos que el id no este vacio
         if(request.IdUsuario == Guid.Empty)
@@ -35,7 +35,7 @@ public class EliminarExpedienteUseCase(ITramiteRepository tramiteRepository,  IA
         actualizacionExpediente.ActualizarEstadoExpediente(request.IdUsuario,tramite.ExpedienteId);
 
         //retornamos una respuesta
-        return new EliminarTramiteUseCaseResponse(request.IdTramite);
+        return new EliminarTramiteResponse(request.IdTramite);
         
     } 
 }
