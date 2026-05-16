@@ -54,15 +54,15 @@ Nuevo expediente
 RecienIniciado
 1ebb58b7-4599-43d4-8f19-61667461cee5
 Nuevo expediente
-7e402111-d4bf-4454-8a75-b18ae3386391
+698638fd-c609-45a6-859f-0196b4063de5
 15/5/2026 17:20:08
 15/5/2026 17:20:08
 ConResolucion
 40e780ea-0327-47c7-a71b-b8efec64c1f8
 cambio de caratula
-7e402111-d4bf-4454-8a75-b18ae3386391
+698638fd-c609-45a6-859f-0196b4063de5
 15/5/2026 17:22:26
-15/5/2026 22:36:18
+15/5/2026 23:31:20
 RecienIniciado
 6d95cb4b-5dcd-40a9-aff7-2a058249d882
 Nuevo expediente
@@ -363,4 +363,46 @@ Nuevo expediente
 7e402111-d4bf-4454-8a75-b18ae3386391
 15/5/2026 22:36:18
 15/5/2026 22:36:18
+RecienIniciado
+c1ba2713-81f0-4660-ba83-52cc7827a5b7
+Nuevo expediente
+04cee086-fd0e-42d0-be3e-2b378af13d21
+15/5/2026 22:44:05
+15/5/2026 22:44:05
+RecienIniciado
+f6c66999-5313-4b1c-afc1-8d56da54aded
+Nuevo expediente
+a3643d3c-bba4-4c49-8da5-7ba82f450b5b
+15/5/2026 23:09:59
+15/5/2026 23:09:59
+RecienIniciado
+706731d5-3cd1-4853-a1b2-551041c0ba6e
+Nuevo expediente
+53e2b42a-c0bc-4bad-99cc-d51354e2a0c7
+15/5/2026 23:12:16
+15/5/2026 23:12:16
+RecienIniciado
+ca3c41df-d367-48f6-8238-313339f7db36
+Nuevo expediente
+268d46b6-87bb-4b28-9548-76162febc468
+15/5/2026 23:20:48
+15/5/2026 23:20:48
+RecienIniciado
+2cf52283-16d9-43dc-a5c7-d29bd718ae2b
+Nuevo expediente
+7718e26b-e114-4a3e-b889-c78e3349fe9c
+15/5/2026 23:24:59
+15/5/2026 23:24:59
+RecienIniciado
+4ee9410e-ac79-4e05-9182-1b05acdb4fed
+Nuevo expediente
+179ef5d6-64c4-4dc2-9832-7f859844292d
+15/5/2026 23:28:50
+15/5/2026 23:28:50
+RecienIniciado
+9ae9a3be-798f-4edb-8c6d-fd845ab2961a
+Nuevo expediente
+698638fd-c609-45a6-859f-0196b4063de5
+15/5/2026 23:31:20
+15/5/2026 23:31:20
 RecienIniciado
