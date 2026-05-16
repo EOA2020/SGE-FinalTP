@@ -3,10 +3,11 @@ using SGE.Aplicacion.Expedientes;
 using SGE.Aplicacion.Comun;
 using SGE.Infraestructura;
 using SGE.Dominio.Comun;
-using SGE.Aplicacion.Tramites;
+using EliminarExpedienteUseCase = SGE.Aplicacion.Expedientes.EliminarExpedienteUseCase;
 
 //instanciamos el repositorio que vamos a inyectar en nuestro caso de uso
 var repositorioExpediente = new ExpedienteTxtRepository();
+var repositorioTramite = new TramiteTxtRepository();
 
 //instanciamos el servicio de autorizacion que vamos a inyectar
 var autorizacionService = new AutorizacionService();
@@ -29,6 +30,12 @@ var agregarExpedienteRequest = new AgregarExpedienteRequest(
     idUsuario //usuario que creo el expediente
 );
 
+//dto para probar el exception al agregar un expediente
+var agregarExpedienteRequestError = new AgregarExpedienteRequest(
+    "",
+    idUsuario
+);
+
 //usamos un try catch para captar errores
 try
 {
@@ -37,6 +44,9 @@ try
 
     //verificamos que en nuestro agregarExpedienteResponse (respuesta) este el id del expediente agregado
     Console.WriteLine($"Id del expediente agreagado: {agregarExpedienteResponse.IdExpediente}");
+
+    //prueba de errores
+    var agregarExpedienteResponseError = agregarExpediente.Ejecutar(agregarExpedienteRequestError);
 }
 catch(AplicacionException e)
 {
@@ -90,13 +100,17 @@ Console.WriteLine("////// PRUEBA UNITARIA - CASO DE USO PARA OBTENER UN EXPEDIEN
 Console.WriteLine("////////////////////////////////////////////////////////////////////");
 Console.WriteLine("El id a buscar es: 'e1fe34b9-c05f-4f54-b14d-b890d67c4acf'");
 var obtenerExpedientePorId = new ObtenerPorIdExpedienteCaseUse(repositorioExpediente);
-var obtenerExpedientePorIdResponse = new ObtenerPorIdExpedienteRequest(Guid.Parse("e1fe34b9-c05f-4f54-b14d-b890d67c4acf"));
+var obtenerExpedientePorIdResponse = new ObtenerPorIdExpedienteRequest(Guid.Parse("33782449-4d95-4831-bafc-47dc039a26f0"));
+var obtenerExpedientePorIdErrorResponse = new ObtenerPorIdExpedienteRequest(Guid.NewGuid());
 
 try
 {
     var expedienteId = obtenerExpedientePorId.Ejecutar(obtenerExpedientePorIdResponse);
     Console.WriteLine($"id: {expedienteId.Expediente.Id} | caratula: {expedienteId.Expediente.Caratula} | Fecha de Creacion: {expedienteId.Expediente.FechaCreacion} |");
     Console.WriteLine($"Fecha de Ultima Actualizacion: {expedienteId.Expediente.FechaUltimaModificacion} | Ultimo usuario: {expedienteId.Expediente.UsuarioUltimoCambio} | Estado: {expedienteId.Expediente.Estado}");
+
+    //prueba de error
+    var expedienteIdError = obtenerExpedientePorId.Ejecutar(obtenerExpedientePorIdErrorResponse);
 }
 catch(AplicacionException e)
 {
@@ -109,7 +123,12 @@ catch(DominioException e)
 catch(RepositorioException e)
 {
     Console.WriteLine(e.Message);
-}catch(Exception e)
+}
+catch(EntidadNoEncontradaException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch(Exception e)
 {
     Console.WriteLine(e.Message);
 }
@@ -156,13 +175,45 @@ catch(RepositorioException e)
 Console.WriteLine();
 Console.WriteLine();
 
+/////////////////////////////////////////////////////////////////////////////
+////// PRUEBA UNITARIA - CASO DE USO ELIMINAR EXPEDIENTE               /////
+///////////////////////////////////////////////////////////////////////////
+
+Console.WriteLine("/////////////////////////////////////////////////////////////////////");
+Console.WriteLine("////// PRUEBA UNITARIA - CASO DE USO ELIMINAR EXPEDIENTE               /////");
+Console.WriteLine("////////////////////////////////////////////////////////////////////");
+
+var eliminarExpediente = new EliminarExpedienteUseCase(repositorioExpediente, repositorioTramite, autorizacionService);
+var eliminarExpedienteRequest = new EliminarExpedienteRequest(Guid.Parse("af86880c-d392-4cb9-a84c-3fde35adbc49"), idUsuario);
+
+try
+{
+    var eliminarExpedienteResponse = eliminarExpediente.Ejecutar(eliminarExpedienteRequest);
+    Console.WriteLine($"Se elimino el expediente de id: {eliminarExpedienteResponse.IdExpediente}");
+}
+catch(AplicacionException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch(DominioException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch(RepositorioException e)
+{
+    Console.WriteLine(e.Message);
+}catch(Exception e)
+{
+    Console.WriteLine(e.Message);
+}
+
+Console.WriteLine();
+Console.WriteLine();
+
 
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
-
-//instanciamos el repositorio que vamos a inyectar en nuestro caso de uso
-var repositorioTramite = new TramiteTxtRepository();
 
 //instanciamos el servicio de actualizacion de estado de expediente que vamos a inyectar
 var actualizacionEstadoExpediente = new ActualizacionEstadoExpedienteService(repositorioTramite,repositorioExpediente);
@@ -176,7 +227,7 @@ var agregarTramite = new AgregarTramiteUseCase(repositorioTramite,autorizacionSe
 
 //creamos nuestra peticion para crear un archivo
 var agregarTramiteRequest = new AgregarTramiteRequest(
-    Guid.Parse("e1fe34b9-c05f-4f54-b14d-b890d67c4acf"), //id del expediente
+    Guid.Parse("489c8a87-6a4f-47f0-ba99-39458658865e"), //id del expediente
     "Nuevo contenido",  //cotenido
     idUsuario //usuario que creo el expediente
 );
@@ -192,6 +243,16 @@ try
 }
 catch (AplicacionException e)
 {   
+    Console.WriteLine(e.Message);
+}catch(DominioException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch(RepositorioException e)
+{
+    Console.WriteLine(e.Message);
+}catch(Exception e)
+{
     Console.WriteLine(e.Message);
 }
 catch(DominioException e)

@@ -17,7 +17,7 @@ public class TramiteTxtRepository : ITramiteRepository
         sw.WriteLine(tramite.Id);
         sw.WriteLine(tramite.ExpedienteId);
         sw.WriteLine(tramite.Etiqueta);
-        sw.WriteLine(tramite.Contenido);
+        sw.WriteLine(tramite.Contenido.Valor);
         sw.WriteLine(tramite.FechaCreacion);
         sw.WriteLine(tramite.FechaUltimaModificacion);
         sw.WriteLine(tramite.UsuarioUltimoCambio);        
