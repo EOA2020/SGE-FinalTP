@@ -2,7 +2,7 @@ using System;
 
 namespace SGE.Aplicacion.Tramites;
 
-public record class EliminarTramiteUseCaseResponse(Guid IdTramite)
+public record class EliminarTramiteResponse(Guid IdTramite)
 {
 
 }

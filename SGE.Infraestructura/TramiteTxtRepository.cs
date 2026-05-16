@@ -139,7 +139,7 @@ public class TramiteTxtRepository : ITramiteRepository
             {
                 //lista de objetos para guardar los campos
                 var datos= new List<object>();
-                for (int j= i-1; j<=(i+5); j++)
+                for (int j= i; j<=(i+6); j++)
                 {
                     datos.Add(lineas[j]);
                 }
