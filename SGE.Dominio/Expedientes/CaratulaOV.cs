@@ -5,7 +5,7 @@ namespace SGE.Dominio.Expedientes;
 //no sea null o este vacia
 public record class CaratulaOV
 {
-    public string Valor { get; }
+    public string Valor { get; private init; } = "";
 
     public CaratulaOV(string valor)
     {
@@ -14,4 +14,6 @@ public record class CaratulaOV
 
         Valor = valor;
     }
+
+    protected CaratulaOV(){}
 }

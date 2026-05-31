@@ -5,7 +5,7 @@ namespace SGE.Dominio.Tramites;
 //del tramite no este en null o vacio.
 public record class ContenidoTramite
 {
-    public string Valor { get; }
+    public string Valor { get; private init; } = "";
 
     public ContenidoTramite(string valor)
     {
