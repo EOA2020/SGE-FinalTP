@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![.NET](https://img.shields.io/badge/.NET-9.0-purple?style=for-the-badge&logo=.net)
+![.NET](https://img.shields.io/badge/.NET-10.0-purple?style=for-the-badge&logo=.net)
 ![C#](https://img.shields.io/badge/C%23-Programming-239120?style=for-the-badge&logo=c-sharp)
 ![Architecture](https://img.shields.io/badge/Clean%20Architecture-Implemented-blue?style=for-the-badge)
 ![Status](https://img.shields.io/badge/Status-In%20Development-success?style=for-the-badge)
