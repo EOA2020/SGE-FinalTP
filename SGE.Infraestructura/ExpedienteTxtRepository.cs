@@ -20,7 +20,7 @@ public class ExpedienteTxtRepository: IExpedienteRepository
         
         //guardamos cada dato en una linea nueva
         sw.WriteLine(expediente.Id);
-        sw.WriteLine(expediente.CaractulaExp.Valor);
+        sw.WriteLine(expediente.Caratula.Valor);
         sw.WriteLine(expediente.UsuarioUltimoCambio);
         sw.WriteLine(expediente.FechaCreacion);
         sw.WriteLine(expediente.FechaUltimaModificacion);        
@@ -73,7 +73,7 @@ public class ExpedienteTxtRepository: IExpedienteRepository
                 if (lineas[i + 2].Equals("***")) throw new RepositorioException ($"El expediente con id {expediente.Id} no existe");
 
                 lineas[i]= expediente.Id.ToString() ;
-                lineas[i+1]= expediente.CaractulaExp.Valor;
+                lineas[i+1]= expediente.Caratula.Valor;
                 lineas[i+2]= expediente.UsuarioUltimoCambio.ToString();
                 lineas[i+3]= expediente.FechaCreacion.ToString();
                 lineas[i+4]= expediente.FechaUltimaModificacion.ToString();                
@@ -115,14 +115,14 @@ public class ExpedienteTxtRepository: IExpedienteRepository
     {
         //convierto datos en lista a su tipo
         datos[0]= Guid.Parse((string)datos[0] ?? "");                                                   //id
-        datos[1]= new Caratula((string)datos[1] ?? "");                                                 //caratula
+        datos[1]= new CaratulaOV((string)datos[1] ?? "");                                                 //caratula
         datos[2]= Guid.Parse((string)datos[2] ?? "");                                                   //usuarioUltimosCambios
         datos[3]=  DateTime.Parse((string)datos[3] ?? "2000-01-01");                                    //fechaCreacion
         datos[4]= DateTime.Parse((string)datos[4] ?? "2000-01-01");                                     //fechaUltimaModificacion
         datos[5]= Enum.Parse<EstadoExpediente>((string)datos[5] ?? "");                                 //estado
 
         //devuelvo expediente reconstruido
-        return Expediente.Reconstruir((Guid)datos[0], (Caratula)datos[1], (Guid)datos[2],(DateTime)datos[3],(DateTime)datos[4],(EstadoExpediente)datos[5]);
+        return Expediente.Reconstruir((Guid)datos[0], (CaratulaOV)datos[1], (Guid)datos[2],(DateTime)datos[3],(DateTime)datos[4],(EstadoExpediente)datos[5]);
     }
 
     public List<Expediente> ObtenerTodos()

@@ -5,8 +5,20 @@ Nuevo expediente
 16/05/2026 04:50:15 p. m.
 RecienIniciado
 185a4261-18c2-4e2a-a5ef-afe9bec05764
+cambio de caratula
+***
+16/05/2026 05:14:45 p. m.
+31/05/2026 03:55:21 p. m.
+ConResolucion
+816094cb-28c9-4b6c-9dad-408d4acd1ba6
 Nuevo expediente
-44f178b7-eec1-4a62-93d4-929281d9816a
-16/05/2026 05:14:45 p. m.
-16/05/2026 05:14:45 p. m.
+b327d373-860e-4cd0-a4be-b484e6e56ab2
+31/05/2026 03:55:21 p. m.
+31/05/2026 03:55:21 p. m.
+RecienIniciado
+587ca577-da66-494f-828a-f3a2b4e8f996
+Nuevo expediente
+a7c4a199-0832-4267-ae27-a8e3099ef0c2
+31/05/2026 03:57:22 p. m.
+31/05/2026 03:57:22 p. m.
 RecienIniciado

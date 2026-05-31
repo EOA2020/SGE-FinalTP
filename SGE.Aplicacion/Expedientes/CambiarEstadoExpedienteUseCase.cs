@@ -7,14 +7,18 @@ public class CambiarEstadoExpedienteUseCase
 {
     private readonly IExpedienteRepository _expedienteRepository;
     private readonly IAutorizacionService _autorizacionService;
+    private readonly ITimeProvider _timeProvider;
 
     public CambiarEstadoExpedienteUseCase(
         IExpedienteRepository expedienteRepository,
-        IAutorizacionService autorizacionService
+        IAutorizacionService autorizacionService,
+        ITimeProvider timeProvider
     )
     {
         _expedienteRepository = expedienteRepository;
         _autorizacionService = autorizacionService;
+        _timeProvider = timeProvider;
+        
     }
 
     public CambiarEstadoExpedienteResponse Ejecutar(CambiarEstadoExpedienteRequest request)
@@ -41,7 +45,7 @@ public class CambiarEstadoExpedienteUseCase
         if(!Enum.TryParse<EstadoExpediente>(estadoString, true, out var estado))
             throw new AplicacionException($"Estado inválido: {request.EstadoNuevo}");
 
-        expediente.CambiarEstado(estado, request.IdUsuario);
+        expediente.CambiarEstado(estado, request.IdUsuario, _timeProvider.Fecha);
 
         //persistimos
         _expedienteRepository.ModificarExpediente(expediente);

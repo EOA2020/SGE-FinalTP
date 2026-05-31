@@ -5,7 +5,11 @@ using SGE.Aplicacion.Comun;
 
 namespace SGE.Aplicacion.Tramites;
 
-public class AgregarTramiteUseCase(ITramiteRepository tramiteRepository,  IAutorizacionService autorizacionService, ActualizacionEstadoExpedienteService actualizacionExpediente)
+public class AgregarTramiteUseCase(
+    ITramiteRepository tramiteRepository, 
+    IAutorizacionService autorizacionService, 
+    ActualizacionEstadoExpedienteService actualizacionExpediente,
+    ITimeProvider timeProvider)
 {
    
     public AgregarTramiteResponse Ejecutar(AgregarTramiteRequest request)
@@ -22,7 +26,12 @@ public class AgregarTramiteUseCase(ITramiteRepository tramiteRepository,  IAutor
         var contenido = new ContenidoTramite(request.Contenido); 
         
         //creamos el nuevo tramite
-        var tramite = new Tramite(request.ExpedienteId, contenido, request.IdUsuario);
+        var tramite = new Tramite(
+            request.ExpedienteId,
+            contenido, request.IdUsuario, 
+            timeProvider.Fecha, 
+            timeProvider.Fecha
+        );
 
         //lo agregamos
         tramiteRepository.AgregarTramite(tramite);

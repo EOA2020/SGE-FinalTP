@@ -9,12 +9,17 @@ public class AgregarExpedienteUseCase
     //de repositorio que use la interfaz IExpedienteRepository.
     private readonly IExpedienteRepository _expedienteRepository;
     private readonly IAutorizacionService _autorizacionService;
+    private readonly ITimeProvider _timeProvider;
 
-    public AgregarExpedienteUseCase(IExpedienteRepository expedienteRepository, IAutorizacionService autorizacionService)
+    public AgregarExpedienteUseCase(
+        IExpedienteRepository expedienteRepository,
+        IAutorizacionService autorizacionService,
+        ITimeProvider timeProvider)
     {
         //inyectamos la instancia
         _expedienteRepository = expedienteRepository;
         _autorizacionService = autorizacionService;
+        _timeProvider = timeProvider;
     }
 
     //funcion que se encarga de crear un nuevo expediente, recibe una peticion
@@ -30,12 +35,14 @@ public class AgregarExpedienteUseCase
             throw new AutorizacionException($"El usuario de id {request.IdUsuario} no posee los permisos para agregar un expediente.");
 
         //creamos los values objects que se encargaran de validacion de formato/rango
-        var caratula = new Caratula(request.Caratula);
+        var caratula = new CaratulaOV(request.Caratula);
 
         //creamos una entidad que tendra su propio guid por que nace con ella
         var expediente = new Expediente(
             caratula,
-            request.IdUsuario
+            request.IdUsuario,
+            _timeProvider.Fecha,
+            _timeProvider.Fecha
         );
 
         //le pasamos el expediente a el repositorio que se encargara de la persistencia

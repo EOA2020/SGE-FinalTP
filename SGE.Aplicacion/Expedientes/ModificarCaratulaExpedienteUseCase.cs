@@ -9,12 +9,17 @@ public class ModificarCaratulaExpedienteUseCase
     //de repositorio que use la interfaz IExpedienteRepository.
     private readonly IExpedienteRepository _expedienteRepository;
     private readonly IAutorizacionService _autorizacionService;
+    private readonly ITimeProvider _timeProvider;
 
-    public ModificarCaratulaExpedienteUseCase(IExpedienteRepository expedienteRepository, IAutorizacionService autorizacionService)
+    public ModificarCaratulaExpedienteUseCase(
+        IExpedienteRepository expedienteRepository,
+        IAutorizacionService autorizacionService,
+        ITimeProvider timeProvider)
     {
         //inyectamos la instancia
         _expedienteRepository = expedienteRepository;
         _autorizacionService = autorizacionService;
+        _timeProvider = timeProvider;
     }
 
     public ModificarCaratulaExpedienteResponse Ejecutar(ModificarCaratulaExpedienteRequest request)
@@ -32,7 +37,7 @@ public class ModificarCaratulaExpedienteUseCase
             throw new AutorizacionException("El usuario no cuenta con los permisos para modificar un expediente");
 
         //pasamos a value object los datos del request
-        var caratula = new Caratula(request.Caratula);
+        var caratula = new CaratulaOV(request.Caratula);
 
         //traemos el expediente
         var expediente = _expedienteRepository.ObtenerPorId(request.IdExpediente);
@@ -42,7 +47,7 @@ public class ModificarCaratulaExpedienteUseCase
             throw new EntidadNoEncontradaException("El expediente no existe.");
 
         //el dominio se encarga de modificar la caratula
-        expediente.ModificarCaratula(caratula, request.IdUsuario);
+        expediente.ModificarCaratula(caratula, request.IdUsuario, _timeProvider.Fecha);
 
         //persistir
         _expedienteRepository.ModificarExpediente(expediente);
