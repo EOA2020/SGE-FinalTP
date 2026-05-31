@@ -6,7 +6,11 @@ using SGE.Dominio.Tramites;
 
 namespace SGE.Aplicacion.Tramites;
 
-public class ModificarTramiteUseCase(ITramiteRepository tramiteRepository, IAutorizacionService autorizacionService, ActualizacionEstadoExpedienteService actualizacionExpediente)
+public class ModificarTramiteUseCase(
+    ITramiteRepository tramiteRepository, 
+    IAutorizacionService autorizacionService, 
+    ActualizacionEstadoExpedienteService actualizacionExpediente,
+    ITimeProvider timeProvider)
 {
     
 public ModificarTramiteResponse Ejecutar(ModificarTramiteRequest request)
@@ -30,7 +34,7 @@ public ModificarTramiteResponse Ejecutar(ModificarTramiteRequest request)
         var contenido = new ContenidoTramite(request.Contenido);
 
         //modifcamos el contenido
-        tramite.ModificarContenido(contenido, request.IdUsuario);
+        tramite.ModificarContenido(contenido, request.IdUsuario, timeProvider.Fecha);
  
         //actualizamos el tramite con sus nuevos datos
         tramiteRepository.ModificarTramite(tramite);

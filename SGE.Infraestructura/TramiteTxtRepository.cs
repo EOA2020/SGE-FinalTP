@@ -44,7 +44,7 @@ public class TramiteTxtRepository : ITramiteRepository
                 lineas[i+6]="***";
                 File.WriteAllLines(this._archivo, lineas);
 
-                ok= true;;
+                ok= true;
             }
         }
 
@@ -62,7 +62,7 @@ public class TramiteTxtRepository : ITramiteRepository
         //recorre de tramite en tramite (tramite= 7 campos)
         for (int i=0; i<lineas.Length; i+=7)
         {
-            if (tramite.Id.Equals(Guid.Parse((string)lineas[i])) && !lineas[i+6].Equals("***"))
+            if (tramite.Id.Equals(Guid.Parse((string)lineas[i])))
             {
                 //Si tramite ya fue borrado tira excepcion
                 if (lineas[i+6].Equals("***")) throw new RepositorioException("El tramite no existe!"); 

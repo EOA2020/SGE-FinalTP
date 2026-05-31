@@ -1,13 +1,13 @@
 using SGE.Aplicacion.Comun;
 namespace SGE.Aplicacion.Expedientes;
 
-public class ObtenerPorIdExpedienteCaseUse
+public class ObtenerPorIdExpedienteUseCase
 {
     //creamos una variable de tipo IExpedienteRepository, que nos permitira inyectar cualquier instacia
     //de repositorio que use la interfaz IExpedienteRepository.
     private readonly IExpedienteRepository _expedienteRepository;
 
-    public ObtenerPorIdExpedienteCaseUse(IExpedienteRepository expedienteRepository)
+    public ObtenerPorIdExpedienteUseCase(IExpedienteRepository expedienteRepository)
     {
         //inyectamos la instancia
         _expedienteRepository = expedienteRepository;
@@ -31,7 +31,7 @@ public class ObtenerPorIdExpedienteCaseUse
         //en caso de que exista, transformamos el expediente en un ExpedienteDTO
         var expedienteDto = new ExpedienteDTO(
             expediente.Id,
-            expediente.CaractulaExp.Valor,
+            expediente.Caratula.Valor,
             expediente.FechaCreacion,
             expediente.FechaUltimaModificacion,
             expediente.UsuarioUltimoCambio,

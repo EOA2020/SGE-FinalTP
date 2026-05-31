@@ -3,6 +3,6 @@ using SGE.Dominio.Expedientes;
 namespace SGE.Aplicacion.Expedientes;
 
 public record class AgregarRequest(
-    Caratula Caratula,
+    CaratulaOV Caratula,
     Guid IdUsuario
 );

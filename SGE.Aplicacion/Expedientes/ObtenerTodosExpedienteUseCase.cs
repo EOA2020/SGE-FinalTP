@@ -27,7 +27,7 @@ public class ObtenerTodosExpedienteUseCase
             //transformacion de Entidad -> DTO
             var dto = new ExpedienteDTO(
                 e.Id,
-                e.CaractulaExp.Valor,
+                e.Caratula.Valor,
                 e.FechaCreacion,
                 e.FechaUltimaModificacion,
                 e.UsuarioUltimoCambio,

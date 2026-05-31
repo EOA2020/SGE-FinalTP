@@ -13,9 +13,10 @@ public class Tramite
 
     //constructor publico que sirve solo para el momento que se crea un nuevo
     //tramite.
-    public Tramite(Guid expedienteId, ContenidoTramite contenido, Guid idUsuario)
-    :this(Guid.NewGuid(), expedienteId, EtiquetaTramite.EscritoPresentado, contenido, DateTime.Now, 
-    DateTime.Now, idUsuario){}
+    public Tramite(Guid expedienteId, ContenidoTramite contenido, Guid idUsuario,
+    DateTime fechaCreacion, DateTime fechaUltimaModificacion)
+    :this(Guid.NewGuid(), expedienteId, EtiquetaTramite.EscritoPresentado, contenido, fechaCreacion, 
+    fechaUltimaModificacion, idUsuario){}
 
     //constructor privado que sirve para el metedo reconstruir.
     private Tramite(Guid id, Guid expedienteId, EtiquetaTramite etiqueta, ContenidoTramite contenido,
@@ -29,7 +30,13 @@ public class Tramite
             throw new DominioException("El ID del usuario no pueder ser un Guid vacio.");
         
         if(expedienteId == Guid.Empty)
-            throw new DominioException("El ID del expediente asociado no pueder ser un Guid vacio."); 
+            throw new DominioException("El ID del expediente asociado no pueder ser un Guid vacio.");
+
+        if(fechaCreacion > DateTime.Now)
+            throw new DominioException("La fecha no puede ser mayor a la fecha actual.");
+
+        if(fechaUltimaModificacion < fechaCreacion)
+            throw new DominioException("La fecha de modificacion no puede ser menor a la fecha de creacion!"); 
 
         Id = id;
         ExpedienteId = expedienteId;
@@ -48,14 +55,17 @@ public class Tramite
     }
 
     //modificar el contenido del tramite
-    public void ModificarContenido(ContenidoTramite nuevoContenido, Guid idUsuario)
+    public void ModificarContenido(ContenidoTramite nuevoContenido, Guid idUsuario, DateTime fechaModificacion)
     {
         if(idUsuario == Guid.Empty)
             throw new DominioException("El ID del usuario no puede ser vacío.");
 
+        if(fechaModificacion < FechaCreacion)
+            throw new DominioException("La fecha no modificacion no puede ser menor a la fecha de creacion.");
+
         Contenido = nuevoContenido ?? throw new DominioException("El contenido no puede ser nulo.");
         UsuarioUltimoCambio = idUsuario;
-        FechaUltimaModificacion = DateTime.Now; 
+        FechaUltimaModificacion = fechaModificacion; 
     }
 
 }
