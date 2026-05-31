@@ -4,12 +4,15 @@ namespace SGE.Dominio.Expedientes;
 
 public class Expediente
 {
-    public Guid Id { get; }
-    public CaratulaOV Caratula { get; private set; }
-    public DateTime FechaCreacion { get; }
+    public Guid Id { get; private set; }
+    public CaratulaOV Caratula { get; private set; } = null!;
+    public DateTime FechaCreacion { get; private set; }
     public DateTime FechaUltimaModificacion { get; private set; }
     public Guid UsuarioUltimoCambio { get; private set; }
     public EstadoExpediente Estado { get; private set; }
+
+    //constructor vacio que usa EF
+    protected Expediente(){}
 
     //constructor publico que sirve solo para el momento que se crea un nuevo
     //expediente.

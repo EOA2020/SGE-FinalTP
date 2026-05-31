@@ -5,11 +5,14 @@ using SGE.Infraestructura;
 using SGE.Dominio.Comun;
 using SGE.Aplicacion.Tramites;
 
+//iniciar la base de datos
+DatabaseSqlite.Inicializar();
+
 Console.WriteLine("/// ---------------------------------- EXPEDIENTES ------------------------------------ ///");
 
 //instanciamos el repositorio que vamos a inyectar en nuestro caso de uso
-var repositorioExpediente = new ExpedienteTxtRepository();
-var repositorioTramite = new TramiteTxtRepository();
+var repositorioExpediente = new ExpedienteRepository();
+var repositorioTramite = new TramiteRepository();
 var timeProvider = new SystemTimeProvider();
 
 //instanciamos el servicio de autorizacion que vamos a inyectar
@@ -95,9 +98,9 @@ Console.WriteLine();
 Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
 Console.WriteLine("////////////// PRUEBA UNITARIA - CASO DE USO PARA OBTENER UN EXPEDIENTE POR ID ///////////");
 Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
-Console.WriteLine("El id a buscar es: '185a4261-18c2-4e2a-a5ef-afe9bec05764'");
+Console.WriteLine("El id a buscar es: '50563D02-C200-434D-BD9D-516494D0D77D'");
 var obtenerPorIdExpediente = new ObtenerPorIdExpedienteUseCase(repositorioExpediente);
-var obtenerPorIdExpedienteRequest = new ObtenerPorIdExpedienteRequest(Guid.Parse("185a4261-18c2-4e2a-a5ef-afe9bec05764"));
+var obtenerPorIdExpedienteRequest = new ObtenerPorIdExpedienteRequest(Guid.Parse("774B9A19-3F0B-4ECD-AF6D-095F918D4126"));
 
 try
 {
@@ -137,11 +140,11 @@ Console.WriteLine();
 Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
 Console.WriteLine("////// PRUEBA UNITARIA - CASO DE USO PARA MODIFICAR UN EXPEDIENTE - CARATULA Y ESTADO ////");
 Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
-Console.WriteLine("El id expediente a modificar: '185a4261-18c2-4e2a-a5ef-afe9bec05764'");
+Console.WriteLine("El id expediente a modificar: '50563D02-C200-434D-BD9D-516494D0D77D'");
 var modificarExpediente = new ModificarCaratulaExpedienteUseCase(repositorioExpediente, autorizacionService, timeProvider);
 var cambiarEstado = new CambiarEstadoExpedienteUseCase(repositorioExpediente, autorizacionService, timeProvider);
-var modicarExpedienteRequest = new ModificarCaratulaExpedienteRequest(Guid.Parse("185a4261-18c2-4e2a-a5ef-afe9bec05764"), "cambio de caratula", idUsuario);
-var cambiarEstadoRequest = new CambiarEstadoExpedienteRequest(Guid.Parse("185a4261-18c2-4e2a-a5ef-afe9bec05764"), "ConResolucion", idUsuario);
+var modicarExpedienteRequest = new ModificarCaratulaExpedienteRequest(Guid.Parse("774B9A19-3F0B-4ECD-AF6D-095F918D4126"), "cambio de caratula", idUsuario);
+var cambiarEstadoRequest = new CambiarEstadoExpedienteRequest(Guid.Parse("774B9A19-3F0B-4ECD-AF6D-095F918D4126"), "ConResolucion", idUsuario);
 
 try
 {
@@ -176,7 +179,7 @@ Console.WriteLine("//////////////// PRUEBA UNITARIA - CASO DE USO ELIMINAR EXPED
 Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
 
 var eliminarExpediente = new EliminarExpedienteUseCase(repositorioExpediente, repositorioTramite, autorizacionService);
-var eliminarExpedienteRequest = new EliminarExpedienteRequest(Guid.Parse("185a4261-18c2-4e2a-a5ef-afe9bec05764"), idUsuario);
+var eliminarExpedienteRequest = new EliminarExpedienteRequest(Guid.Parse("FCB5493F-0A83-4006-B0BB-F9F8991A518C"), idUsuario);
 
 try
 {
@@ -217,11 +220,11 @@ Console.WriteLine("//////////// PRUEBA UNITARIA  - CASO DE USO PARA AGREGAR UN T
 Console.WriteLine("///////////////////////////////////////////////////////////////////////////////////////////");
 
 //crear la instancia de el caso de uso - AgregarTramiteUseCase e inyectamos la dependencia
-var agregarTramite = new AgregarTramiteUseCase(repositorioTramite,autorizacionService,actualizacionEstadoExpediente, timeProvider);
+var agregarTramite = new AgregarTramiteUseCase(repositorioExpediente, repositorioTramite,autorizacionService,actualizacionEstadoExpediente, timeProvider);
 
 //creamos nuestra peticion para crear un archivo
 var agregarTramiteRequest = new AgregarTramiteRequest(
-    Guid.Parse("8945f48c-7050-4ace-8bcb-a8a6bdb7b739"), //id del expediente
+    Guid.Parse("774B9A19-3F0B-4ECD-AF6D-095F918D4126"), //id del expediente
     "Nuevo contenido",  //cotenido
     idUsuario //usuario que creo el expediente
 );
@@ -279,7 +282,7 @@ Console.WriteLine("/////////////////////////////////////////////////////////////
 //creamos la instancia del caso de uso - ObtenerTodosTramiteUseCase e inyectamos dependencias
 var obtenerPorExpedienteId = new ObtenerPorExpedienteIdUseCase(repositorioTramite,repositorioExpediente);
 
-var obtenerExpedientePorIdRequest = new ObtenerPorExpedienteIdRequest(Guid.Parse("8945f48c-7050-4ace-8bcb-a8a6bdb7b739"));
+var obtenerExpedientePorIdRequest = new ObtenerPorExpedienteIdRequest(Guid.Parse("774B9A19-3F0B-4ECD-AF6D-095F918D4126"));
 
 var obtenerExpedientePorIdInexistenteRequest = new ObtenerPorExpedienteIdRequest(Guid.NewGuid());
 //creamos la variable response donde nos va a retornar todos los tramites
@@ -325,13 +328,15 @@ Console.WriteLine("/////////////////////////////////////////////////////////////
 Console.WriteLine("El id a buscar es: 'eee258b2-8f63-4251-abc9-b3a5838eef74'");
 
 var obtenerPorId = new ObtenerTramitePorIdUseCase(repositorioTramite);
-var obtenerPorIdRequest = new ObtenerPorIdResquest(Guid.Parse("eee258b2-8f63-4251-abc9-b3a5838eef74"));
+var obtenerPorIdRequest = new ObtenerPorIdResquest(Guid.Parse("D42D6C2C-B89A-4652-84A8-5079121E1D5D"));
 var obtenerPorIdInexistenteRequest = new ObtenerPorIdResquest(Guid.NewGuid());
 
 try
 {
     var t = obtenerPorId.Ejecutar(obtenerPorIdRequest);
-    var tError = obtenerPorId.Ejecutar(obtenerPorIdInexistenteRequest);
+    Console.WriteLine($"id: {t.Id} | id del expediente: {t.ExpedienteId} | etiqueta: {t.Etiqueta} | contenido: {t.Contenido} |");
+    Console.WriteLine($" Fecha de Creacion: {t.FechaCreacion} | Fecha de Ultima Actualizacion: {t.FechaUltimaModificacion} | Ultimo usuario: {t.UsuarioUltimoCambio} ");
+    t = obtenerPorId.Ejecutar(obtenerPorIdInexistenteRequest);
     Console.WriteLine($"id: {t.Id} | id del expediente: {t.ExpedienteId} | etiqueta: {t.Etiqueta} | contenido: {t.Contenido} |");
     Console.WriteLine($" Fecha de Creacion: {t.FechaCreacion} | Fecha de Ultima Actualizacion: {t.FechaUltimaModificacion} | Ultimo usuario: {t.UsuarioUltimoCambio} ");
 }
@@ -362,7 +367,7 @@ Console.WriteLine("/////////////////////////////////////////////////////////////
 Console.WriteLine("El id tramite a modificar: 'eee258b2-8f63-4251-abc9-b3a5838eef74'");
 
 var modificarTramite = new ModificarTramiteUseCase(repositorioTramite, autorizacionService,actualizacionEstadoExpediente, timeProvider);
-var modicarTramiteRequest = new ModificarTramiteRequest(Guid.Parse("eee258b2-8f63-4251-abc9-b3a5838eef74"), "cambio de contenido", idUsuario);
+var modicarTramiteRequest = new ModificarTramiteRequest(Guid.Parse("D42D6C2C-B89A-4652-84A8-5079121E1D5D"), "cambio de contenido", idUsuario);
 var modicarTramiteInexistenteRequest = new ModificarTramiteRequest(Guid.NewGuid(),"", idUsuario); //(Guid.Parse("93d11fed-7506-458f-86e2-70264a37f8b8"),"", idUsuario);
 
 try
@@ -399,10 +404,10 @@ Console.WriteLine("/////////////////////////////////////////////////////////////
 Console.WriteLine("/////////////// PRUEBA UNITARIA - CASO DE USO PARA ELIMINAR UN TRAMITE ///////////////////");
 Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
 
-Console.WriteLine("El id tramite a eliminar: 'eee258b2-8f63-4251-abc9-b3a5838eef74'");
+Console.WriteLine("El id tramite a eliminar: '338E6F2E-BD16-4337-BB1E-83B3A6EF37F8'");
 
 var eliminarTramite = new EliminarTramiteUseCase(repositorioTramite,autorizacionService,actualizacionEstadoExpediente);
-var eliminarTramiteRequest = new EliminarTramiteRequest(Guid.Parse("eee258b2-8f63-4251-abc9-b3a5838eef74"),idUsuario);
+var eliminarTramiteRequest = new EliminarTramiteRequest(Guid.Parse("338E6F2E-BD16-4337-BB1E-83B3A6EF37F8"),idUsuario);
 var eliminarTramiteInexistenteRequest = new EliminarTramiteRequest(Guid.NewGuid(),idUsuario);
 
 try
