@@ -1,20 +1,10 @@
 using SGE.Aplicacion.Comun;
 namespace SGE.Aplicacion.Expedientes;
 
-public class ObtenerPorIdExpedienteUseCase
+public class ObtenerPorIdExpedienteUseCase(
+    IExpedienteRepository expedienteRepository
+)
 {
-    //creamos una variable de tipo IExpedienteRepository, que nos permitira inyectar cualquier instacia
-    //de repositorio que use la interfaz IExpedienteRepository.
-    private readonly IExpedienteRepository _expedienteRepository;
-
-    public ObtenerPorIdExpedienteUseCase(IExpedienteRepository expedienteRepository)
-    {
-        //inyectamos la instancia
-        _expedienteRepository = expedienteRepository;
-    }
-
-    //funcion que se encarga de crear un nuevo expediente, recibe una peticion
-    //con un id, que nos sirve para obtener el expediente que cumpla con este id
     public ObtenerPorIdExpedienteResponse Ejecutar(ObtenerPorIdExpedienteRequest request)
     {
         //verificamos que el id del expediente que viene en el expediente sea valido
@@ -22,7 +12,7 @@ public class ObtenerPorIdExpedienteUseCase
             throw new AplicacionException("El Guid no puede estar vacio.");
 
         //le pasamos nuestro id del expediente al repositorio
-        var expediente = _expedienteRepository.ObtenerPorId(request.IdExpediente);
+        var expediente = expedienteRepository.ObtenerPorId(request.IdExpediente);
 
         //verificamos que exista el expediente sino lanzamos una exception
         if(expediente == null)

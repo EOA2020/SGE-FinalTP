@@ -11,7 +11,6 @@ public class TramiteRepository : ITramiteRepository
     {
         using var context = new DataContext();
         context.Tramites.Add(tramite);
-        context.SaveChanges();     
     }
     
     //elimina tramite del archivo a partir de su id
@@ -24,19 +23,6 @@ public class TramiteRepository : ITramiteRepository
             throw new RepositorioException($"El tramite con id: {idTramite} no existe.");
 
         context.Tramites.Remove(tramite);
-        context.SaveChanges();
-    }
-
-    public void ModificarTramite(Tramite tramite)
-    {
-        using var context = new DataContext();
-        var tramiteDB = context.Tramites.Find(tramite.Id);
-
-        if(tramiteDB == null)
-            throw new RepositorioException($"El tramite con id: {tramite.Id} no existe.");
-
-        context.Entry(tramiteDB).CurrentValues.SetValues(tramite);
-        context.SaveChanges();
     }
 
     //Recorre el archivo buscando los tramites con expedienteID, los devuelve en una lista, si no encuentra deuelve lista vacia

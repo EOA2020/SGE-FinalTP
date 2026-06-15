@@ -1,3 +1,5 @@
 namespace SGE.Aplicacion.Tramites;
 
-public record class AgregarTramiteResponse(Guid IdTramite);
+public record class AgregarTramiteResponse(
+    Guid IdTramite
+);

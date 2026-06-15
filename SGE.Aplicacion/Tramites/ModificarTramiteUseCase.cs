@@ -10,17 +10,19 @@ public class ModificarTramiteUseCase(
     ITramiteRepository tramiteRepository, 
     IAutorizacionService autorizacionService, 
     ActualizacionEstadoExpedienteService actualizacionExpediente,
-    ITimeProvider timeProvider)
+    ITimeProvider timeProvider,
+    IUnidadDeTrabajo uow
+)
 {
     
-public ModificarTramiteResponse Ejecutar(ModificarTramiteRequest request)
+public ModificarTramiteResponse Ejecutar(ModificarTramiteRequest request, Guid idUsuario)
     {
         //verificamos que el id del usuario no este vacio
-        if(request.IdUsuario == Guid.Empty)
+        if(idUsuario == Guid.Empty)
             throw new AplicacionException("El id no puede estar vacio");
 
         //verificamos que tenga permisos
-        if(!autorizacionService.PoseeElPermiso(request.IdUsuario, Permiso.TramiteModificacion))
+        if(!autorizacionService.PoseeElPermiso(idUsuario, Permiso.TramiteModificacion))
             throw new AutorizacionException("El usuario debe tener permiso");
         
         //obtenemos el tramite
@@ -31,20 +33,21 @@ public ModificarTramiteResponse Ejecutar(ModificarTramiteRequest request)
             throw new EntidadNoEncontradaException("El trámite que intenta modificar no existe");
 
         //creamos el nuevo contenido
-        var contenido = new ContenidoTramite(request.Contenido);
+        var contenido = new ContenidoVO(request.Contenido);
 
         //modifcamos el contenido
-        tramite.ModificarContenido(contenido, request.IdUsuario, timeProvider.Fecha);
- 
-        //actualizamos el tramite con sus nuevos datos
-        tramiteRepository.ModificarTramite(tramite);
+        tramite.ModificarContenido(contenido, idUsuario, timeProvider.Fecha);
 
         //actualizamos el ultimo expediente
-        actualizacionExpediente.ActualizarEstadoExpediente(request.IdUsuario,tramite.ExpedienteId);
+        actualizacionExpediente.ActualizarEstadoExpediente(
+            idUsuario,
+            tramite.ExpedienteId
+        );
+
+        //guardamos cambios
+        uow.GuardarCambios();
 
         //retornamos una respuesta
         return new ModificarTramiteResponse(request.TramiteId);
     }
-
-
 }

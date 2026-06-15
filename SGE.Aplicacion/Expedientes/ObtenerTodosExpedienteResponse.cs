@@ -1,5 +1,5 @@
 namespace SGE.Aplicacion.Expedientes;
 
-public record class ObtenerTodoExpedienteResponse(
+public record class ObtenerTodosExpedienteResponse(
     IEnumerable<ExpedienteDTO> Expedientes
 );

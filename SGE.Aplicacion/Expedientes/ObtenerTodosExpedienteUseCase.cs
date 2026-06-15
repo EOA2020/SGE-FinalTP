@@ -1,22 +1,14 @@
 using SGE.Dominio.Expedientes;
 namespace SGE.Aplicacion.Expedientes;
 
-public class ObtenerTodosExpedienteUseCase
+public class ObtenerTodosExpedienteUseCase(
+    IExpedienteRepository expedienteRepository
+)
 {
-    //creamos una variable de tipo IExpedienteRepository, que nos permitira inyectar cualquier instacia
-    //de repositorio que use la interfaz IExpedienteRepository.
-    private readonly IExpedienteRepository _expedienteRepository;
-
-    public ObtenerTodosExpedienteUseCase(IExpedienteRepository expedienteRepository)
-    {
-        //inyectamos la instancia
-        _expedienteRepository = expedienteRepository;
-    }
-
-    public ObtenerTodoExpedienteResponse Ejecutar()
+    public ObtenerTodosExpedienteResponse Ejecutar(ObtenerTodosExpedienteRequest request)
     {
         //obtenemos una lista de entidades desde el repositorio
-        var expedientes = _expedienteRepository.ObtenerTodos();
+        var expedientes = expedienteRepository.ObtenerTodos();
 
         //cremos la lista de dtos
         var dtos = new List<ExpedienteDTO>();
@@ -37,6 +29,6 @@ public class ObtenerTodosExpedienteUseCase
         }
 
         //retornamos la respuesta
-        return new ObtenerTodoExpedienteResponse(dtos);
+        return new ObtenerTodosExpedienteResponse(dtos);
     }
 }

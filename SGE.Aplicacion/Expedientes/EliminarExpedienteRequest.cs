@@ -3,6 +3,5 @@ using System;
 namespace SGE.Aplicacion.Expedientes;
 
 public record class EliminarExpedienteRequest(
-    Guid IdExpediente,
-    Guid IdUsuario
+    Guid IdExpediente
 );

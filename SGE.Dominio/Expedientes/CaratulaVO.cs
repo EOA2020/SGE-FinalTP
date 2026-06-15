@@ -3,11 +3,11 @@ namespace SGE.Dominio.Expedientes;
 
 //object value que es un string que valida que la caratula
 //no sea null o este vacia
-public record class CaratulaOV
+public record class CaratulaVO
 {
     public string Valor { get; private init; } = "";
 
-    public CaratulaOV(string valor)
+    public CaratulaVO(string valor)
     {
         if(string.IsNullOrWhiteSpace(valor))
             throw new DominioException("La caratula del expediente no pueder estar vacio.");
@@ -15,5 +15,5 @@ public record class CaratulaOV
         Valor = valor;
     }
 
-    protected CaratulaOV(){}
+    protected CaratulaVO(){}
 }

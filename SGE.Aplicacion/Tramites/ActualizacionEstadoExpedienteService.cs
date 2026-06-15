@@ -4,19 +4,22 @@ using SGE.Dominio.Tramites;
 
 namespace SGE.Aplicacion.Tramites;
 
-public class ActualizacionEstadoExpedienteService(ITramiteRepository _tramiteRepository, IExpedienteRepository _expedienteRepository)
+public class ActualizacionEstadoExpedienteService(
+    ITramiteRepository tramiteRepository, 
+    IExpedienteRepository expedienteRepository
+)
 {
     public void ActualizarEstadoExpediente(Guid idUsuario, Guid idExpediente)
     {
         //obtenemos el expediente
-        var expediente = _expedienteRepository.ObtenerPorId(idExpediente);
+        var expediente = expedienteRepository.ObtenerPorId(idExpediente);
 
         //verificamos que exista
         if (expediente == null) 
             throw new EntidadNoEncontradaException("El expediente no existe.");
 
         //obtenemos sus tramites
-        var tramites = _tramiteRepository.ObtenerPorExpedienteId(idExpediente);
+        var tramites = tramiteRepository.ObtenerPorExpedienteId(idExpediente);
 
         //definimmos una variable con una fecha minima
         DateTime fechaMasReciente = DateTime.MinValue;
@@ -39,7 +42,6 @@ public class ActualizacionEstadoExpedienteService(ITramiteRepository _tramiteRep
         bool cambio = expediente.ActualizarEstado(ultimaEtiqueta, idUsuario);
         
         //si cambio, modifcamos el expediente
-        if (cambio) _expedienteRepository.ModificarExpediente(expediente);
+        if (cambio) expedienteRepository.ModificarExpediente(expediente);
     }
-
 }

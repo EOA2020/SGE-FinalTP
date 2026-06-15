@@ -11,10 +11,7 @@ public interface IExpedienteRepository
     Expediente? ObtenerPorId(Guid id);
 
     //obtener todos los expedientes
-    List<Expediente> ObtenerTodos();
-
-    //modificar el estado de un expediente de forma manual 
-    void ModificarExpediente(Expediente expediente);
+    IEnumerable<Expediente> ObtenerTodos();
 
     //eliminar un expediente
     void EliminarExpediente(Guid id);
