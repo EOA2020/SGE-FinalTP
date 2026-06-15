@@ -5,7 +5,7 @@ namespace SGE.Dominio.Expedientes;
 public class Expediente
 {
     public Guid Id { get; private set; }
-    public CaratulaOV Caratula { get; private set; } = null!;
+    public CaratulaVO Caratula { get; private set; } = null!;
     public DateTime FechaCreacion { get; private set; }
     public DateTime FechaUltimaModificacion { get; private set; }
     public Guid UsuarioUltimoCambio { get; private set; }
@@ -14,19 +14,10 @@ public class Expediente
     //constructor vacio que usa EF
     protected Expediente(){}
 
-    //constructor publico que sirve solo para el momento que se crea un nuevo
-    //expediente.
-    public Expediente(CaratulaOV caratula, Guid usuarioUltimoCambio, DateTime fechaCreacion, DateTime fechaUltimaModificacion)
-    :this(Guid.NewGuid(), caratula, usuarioUltimoCambio, fechaCreacion,
-    fechaUltimaModificacion, EstadoExpediente.RecienIniciado){}
-
     //constructor privado que sirve para el metedo reconstruir.
-    private Expediente(Guid id, CaratulaOV caratula, Guid usuarioUltimoCambio, DateTime fechaCreacion,
-    DateTime fechaUltimaModificacion, EstadoExpediente estado)
-    {
-        if(id == Guid.Empty)
-            throw new DominioException("El ID del producto no pueder ser un Guid vacio.");
-        
+    public Expediente(CaratulaVO caratula, Guid usuarioUltimoCambio, DateTime fechaCreacion,
+    DateTime fechaUltimaModificacion)
+    {   
         if(usuarioUltimoCambio == Guid.Empty)
             throw new DominioException("El ID del usuario no pueder ser un Guid vacio.");
 
@@ -36,23 +27,16 @@ public class Expediente
         if(fechaUltimaModificacion < fechaCreacion)
             throw new DominioException("La fecha de modificacion no puede ser menor a la fecha de creacion!");
 
-        Id = id;
+        Id = Guid.NewGuid();
         UsuarioUltimoCambio = usuarioUltimoCambio;
-        Caratula = caratula ?? throw new DominioException("La caratula es obligatoria.");
+        Caratula = caratula;
         FechaCreacion = fechaCreacion;
         FechaUltimaModificacion = fechaUltimaModificacion;
-        Estado = estado;
-    }
-
-    //Factory Method (para la reconstrucion de un expediente).
-    public static Expediente Reconstruir(Guid id, CaratulaOV caratula, Guid usuarioUltimoCambio, DateTime fechaCreacion,
-    DateTime fechaUltimaModificacion, EstadoExpediente estado)
-    {
-        return new Expediente(id, caratula, usuarioUltimoCambio, fechaCreacion, fechaUltimaModificacion, estado);   
+        Estado = EstadoExpediente.RecienIniciado;
     }
 
     //metodo que permite modificar la caratula.
-    public void ModificarCaratula(CaratulaOV nuevaCaratula, Guid idUsuario, DateTime fechaModificacion)
+    public void ModificarCaratula(CaratulaVO nuevaCaratula, Guid idUsuario, DateTime fechaModificacion)
     {
         //comprobamos que el id del usuari que realiza la modificacion no este vacio
         if(idUsuario == Guid.Empty) 
@@ -62,7 +46,7 @@ public class Expediente
             throw new DominioException("La fecha no modificacion no puede ser menor a la fecha de creacion.");
 
         UsuarioUltimoCambio = idUsuario;
-        Caratula = nuevaCaratula ?? throw new DominioException("La caratula no puede estar vacia.");
+        Caratula = nuevaCaratula;
         FechaUltimaModificacion = fechaModificacion;
     }
 

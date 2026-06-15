@@ -5,9 +5,12 @@ using SGE.Dominio.Tramites;
 
 namespace SGE.Aplicacion.Tramites;
 
-public class ObtenerPorExpedienteIdUseCase(ITramiteRepository tramiteRepository, IExpedienteRepository expedienteRepository)
+public class ObtenerTramitesPorExpedienteIdUseCase(
+    IExpedienteRepository expedienteRepository,
+    ITramiteRepository tramiteRepository
+)
 {
-    public ObtenerPorExpedienteIdResponse Ejecutar(ObtenerPorExpedienteIdRequest request)
+    public ObtenerTramitesPorExpedienteIdResponse Ejecutar(ObtenerPorIdExpedienteRequest request)
     {
         //verificamos que el expediente no este vacio
         if (request.IdExpediente == Guid.Empty)
@@ -41,6 +44,6 @@ public class ObtenerPorExpedienteIdUseCase(ITramiteRepository tramiteRepository,
         tramitesDTO.Add(dto);
     }
        //retornamos la lista
-        return new ObtenerPorExpedienteIdResponse(tramitesDTO);
+        return new ObtenerTramitesPorExpedienteIdResponse(tramitesDTO);
     }
 }

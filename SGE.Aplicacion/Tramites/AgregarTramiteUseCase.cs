@@ -11,17 +11,19 @@ public class AgregarTramiteUseCase(
     ITramiteRepository tramiteRepository, 
     IAutorizacionService autorizacionService, 
     ActualizacionEstadoExpedienteService actualizacionExpediente,
-    ITimeProvider timeProvider)
+    ITimeProvider timeProvider,
+    IUnidadDeTrabajo uow
+)
 {
    
-    public AgregarTramiteResponse Ejecutar(AgregarTramiteRequest request)
+    public AgregarTramiteResponse Ejecutar(AgregarTramiteRequest request, Guid idUsuario)
     {
         //se verifica que el id del usuario no este vacio
-        if(request.IdUsuario == Guid.Empty)
+        if(idUsuario == Guid.Empty)
             throw new AplicacionException("El id no puede estar vacio");
 
         //se verifica que el usuario tenga permiso
-        if(!autorizacionService.PoseeElPermiso(request.IdUsuario, Permiso.TramiteAlta))
+        if(!autorizacionService.PoseeElPermiso(idUsuario, Permiso.TramiteAlta))
             throw new AutorizacionException("El usuario debe tener permiso");
 
         //verificamos que exista el expediente
@@ -29,14 +31,15 @@ public class AgregarTramiteUseCase(
             throw new EntidadNoEncontradaException("El id del expediente debe ser valido para crear un tramite");
             
         //creamos el nuevo contenido
-        var contenido = new ContenidoTramite(request.Contenido); 
+        var contenido = new ContenidoVO(request.Contenido); 
         
         //creamos el nuevo tramite
         var tramite = new Tramite(
             request.ExpedienteId,
-            contenido, request.IdUsuario, 
+            contenido, 
             timeProvider.Fecha, 
-            timeProvider.Fecha
+            timeProvider.Fecha,
+            idUsuario
         );
 
         //lo agregamos
@@ -44,6 +47,9 @@ public class AgregarTramiteUseCase(
 
         //actualizamos el ultimo expediente
         actualizacionExpediente.ActualizarEstadoExpediente(tramite.UsuarioUltimoCambio, tramite.ExpedienteId);
+
+        //guardamos los cambios
+        uow.GuardarCambios();
 
         //retornamos una respuesta
         return new AgregarTramiteResponse(tramite.Id);   

@@ -4,45 +4,39 @@ using SGE.Aplicacion.Tramites;
 
 namespace SGE.Aplicacion.Expedientes;
 
-public class EliminarExpedienteUseCase
+public class EliminarExpedienteUseCase(
+    IExpedienteRepository expedienteRepository,
+    IAutorizacionService autorizacionService,
+    ITramiteRepository tramiteRepository,
+    IUnidadDeTrabajo uow
+)
 {
-    private readonly IExpedienteRepository _expedienteRepository;
-    private readonly ITramiteRepository _tramiteRepository;
-    private readonly IAutorizacionService _autorizacionService;
-
-    public EliminarExpedienteUseCase(
-        IExpedienteRepository expedienteRepository,
-        ITramiteRepository tramiteRepository,
-        IAutorizacionService autorizacionService
-    )
-    {
-        _expedienteRepository = expedienteRepository;
-        _tramiteRepository = tramiteRepository;
-        _autorizacionService = autorizacionService;
-    }
-
-    public EliminarExpedienteResponse Ejecutar(EliminarExpedienteRequest request)
+    public EliminarExpedienteResponse Ejecutar(EliminarExpedienteRequest request, Guid idUsuario)
     {
         //verificar que el id del expediente sea valido
         if(request.IdExpediente == Guid.Empty)
             throw new AplicacionException("El Guid del expediente no puede estar vacio.");
 
         //verificamos que el id del usuario sea valido y tenga permisos
-        if(request.IdUsuario == Guid.Empty)
+        if(idUsuario == Guid.Empty)
             throw new AplicacionException("El Guid del usuario no puede estar vacio.");
 
-        if(!_autorizacionService.PoseeElPermiso(request.IdUsuario, Permiso.ExpedienteBaja))
+        if(!(autorizacionService.PoseeElPermiso(idUsuario, Permiso.ExpedienteBaja) &&
+            autorizacionService.PoseeElPermiso(idUsuario, Permiso.TramiteBaja)))
             throw new AutorizacionException("el usuario no posee permisos.");
 
         //borramos todos los tramites del expediente
-        var tramites = _tramiteRepository.ObtenerPorExpedienteId(request.IdExpediente);
+        var tramites = tramiteRepository.ObtenerPorExpedienteId(request.IdExpediente);
         foreach (var t in tramites)
         {
-            _tramiteRepository.EliminarTramite(t.Id);
+            tramiteRepository.EliminarTramite(t.Id);
         }
 
         //eliminamos el expediente
-        _expedienteRepository.EliminarExpediente(request.IdExpediente);
+        expedienteRepository.EliminarExpediente(request.IdExpediente);
+
+        //guardamos los cambios
+        uow.GuardarCambios();
 
         //retornamos una respuesta
         return new EliminarExpedienteResponse(request.IdExpediente);
